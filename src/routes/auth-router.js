@@ -12,13 +12,14 @@ const jsonParser = bodyParser.json();
 const router = module.exports = new express.Router();
 
 router.post('/user/signup', jsonParser, (request, response, next) => {
-  if (!request.body.password) {
+  if (!request.body.password || !request.body.username || !request.body.accesscode || !request.body.email) { // eslint-disable-line
     return next(new HttpError(400, 'missing parameters'));
   }
   return Account.create(request.body.username, request.body.email,
-    request.body.password) // 1. Hash password
+    request.body.password, request.body.accesscode) // 1. Hash password
     .then((createdAccount) => {
       delete request.body.password;
+      delete request.body.accesscode;
       logger.log(logger.INFO, 'AUTH - creating Token');
       return createdAccount.pCreateToken(); // 2. Create and save token
     })

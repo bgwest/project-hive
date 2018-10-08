@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const HttpError = require('http-errors');
 
-const BlogPost = require('../model/blog-post-schema');
+const BlogPost = require('../model/user-blog-post-schema');
 // const UserModel = require('../model/user-schema');
 const logger = require('../lib/logger');
 

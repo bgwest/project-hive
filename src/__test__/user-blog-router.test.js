@@ -4,22 +4,22 @@
 
 const superagent = require('superagent');
 const server = require('../lib/server');
-const blogPostMock = require('./lib/blog-post-mock');
+const blogPostMock = require('./lib/user-blog-post-mock');
 const userMockObject = require('./lib/user-mock');
 
 // const savedUserMock = userMockObject.pCreateUserMock;
 // console.log(savedUserMock);
 
-const API_URL = `http://localhost:${process.env.PORT}/user/blog-posts`;
+const API_URL = `http://localhost:${process.env.PORT}/user/user-blog-post`;
 
 describe('testing /user/blog-posts', () => {
   beforeAll(server.start);
   afterAll(server.stop);
-  beforeEach(blogPostMock.pCleanBlogPostMocks);
+  beforeEach(blogPostMock.pCleanUserBlogPostMocks);
 
   test('creating mock blogPost with mock user, using super agent for PUT update, and response should be 200 status.', () => {
     let savedMock = null;
-    return blogPostMock.pCreateBlogPostMock()
+    return blogPostMock.pCreateUserBlogPostMock()
       .then((mock) => {
         savedMock = mock;
         return superagent.put(`${API_URL}/${mock.blogPost._id}`)
@@ -38,7 +38,7 @@ describe('testing /user/blog-posts', () => {
   });
   test('create a mock blog post and try to get that post be sending it\'s id', () => {
     let savedMock = null;
-    return blogPostMock.pCreateBlogPostMock()
+    return blogPostMock.pCreateUserBlogPostMock()
       .then((mock) => {
         savedMock = mock;
         return superagent.get(`${API_URL}/${mock.blogPost._id}`);
@@ -67,7 +67,7 @@ describe('testing /user/blog-posts', () => {
   });
   test('creating mock blog post / user and then deleting it.', () => {
     let savedBlogMock = null;
-    return blogPostMock.pCreateBlogPostMock()
+    return blogPostMock.pCreateUserBlogPostMock()
       .then((blogMock) => {
         savedBlogMock = blogMock;
         return superagent.delete(`${API_URL}/${blogMock.blogPost._id}`);

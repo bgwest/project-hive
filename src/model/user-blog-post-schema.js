@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const HttpError = require('http-errors');
 const UserModel = require('./user-schema');
 
-const blogPostSchema = mongoose.Schema({
+const userBlogPostSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -28,7 +28,7 @@ const blogPostSchema = mongoose.Schema({
 // -------------------------------------------------------------------------------------
 // CRUD RULES
 // -------------------------------------------------------------------------------------
-function blogPostPreHook(done) {
+function userBlogPostPreHook(done) {
   // development note: the value of 'this' inside this function is going to be the document
   // that is going to be saved
   return UserModel.findById(this.user)
@@ -45,7 +45,7 @@ function blogPostPreHook(done) {
     .catch(done); // error => done(error)
 }
 
-const blogPostPostHook = (document, done) => {
+const userBlogPostPostHook = (document, done) => {
   return UserModel.findById(document.user)
     .then((userFound) => {
       // console.log(document);
@@ -62,8 +62,8 @@ const blogPostPostHook = (document, done) => {
     .catch(done); // error => done(error)
 }; // hard to find documentation on done() for mongoose ...
 
-blogPostSchema.pre('save', blogPostPreHook);
-blogPostSchema.post('remove', blogPostPostHook);
+userBlogPostSchema.pre('save', userBlogPostPreHook);
+userBlogPostSchema.post('remove', userBlogPostPostHook);
 // -------------------------------------------------------------------------------------
 
-module.exports = mongoose.model('blog-post-schema', blogPostSchema);
+module.exports = mongoose.model('blog-post-schema', userBlogPostSchema);

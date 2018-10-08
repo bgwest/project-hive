@@ -6,6 +6,18 @@ const jsonWebToken = require('jsonwebtoken'); // actually doing the crypto
 const bcrypt = require('bcrypt'); // this handles the hashing
 const HttpError = require('http-errors');
 
+// development note: on a production system, this would be >=9
+const HASH_ROUNDS = 8;
+
+function hashAccessCode(code, callback) {
+  const bcryptReturn = bcrypt.hash(code, HASH_ROUNDS);
+  callback(bcryptReturn);
+}
+
+function getHashCode(hashCode) {
+  return hashCode;
+}
+
 const accountSchema = mongoose.Schema({
   username: {
     type: String,
@@ -26,9 +38,15 @@ const accountSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  accesscode: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 
 const TOKEN_SEED_LENGTH = 128;
+
 
 function pVerifyPassword(plainTextPassword) {
   // uses current account schema
@@ -71,12 +89,13 @@ accountSchema.methods.pVerifyPassword = pVerifyPassword;
 
 const AuthAccount = module.exports = mongoose.model('account', accountSchema);
 
-// development note: on a production system, this would be >=9
-const HASH_ROUNDS = 8;
 
-AuthAccount.create = (username, email, password) => {
+AuthAccount.create = (username, email, password, accesscode) => {
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
+      accesscode = hashAccessCode(accesscode, getHashCode); // eslint-disable-line
+      // const hashCode = hashAccessCode(accesscode);
+      // accesscode = hashCode; //eslint-disable-line
       password = null; // eslint-disable-line no-param-reassign
       const tokenSeed = crypto.randomBytes(TOKEN_SEED_LENGTH).toString('hex');
       return new AuthAccount({
@@ -84,6 +103,7 @@ AuthAccount.create = (username, email, password) => {
         email,
         tokenSeed,
         passwordHash,
+        accesscode,
       }).save();
     });
 };

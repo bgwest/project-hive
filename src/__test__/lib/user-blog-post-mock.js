@@ -2,11 +2,11 @@
 
 const faker = require('faker');
 const userMock = require('./user-mock');
-const BlogPost = require('../../model/blog-post-schema');
+const BlogPost = require('../../model/user-blog-post-schema');
 
-const blogPostMock = {};
+const userBlogPostMock = {};
 
-blogPostMock.pCreateBlogPostMock = () => {
+userBlogPostMock.pCreateUserBlogPostMock = () => {
   const resultMock = {};
   return userMock.pCreateUserMock()
     .then((createdUserMock) => {
@@ -24,11 +24,11 @@ blogPostMock.pCreateBlogPostMock = () => {
     });
 };
 
-blogPostMock.pCleanBlogPostMocks = () => {
+userBlogPostMock.pCleanUserBlogPostMocks = () => {
   return Promise.all([
     BlogPost.remove({}),
     userMock.pCleanUserMocks(),
   ]);
 };
 
-module.exports = blogPostMock;
+module.exports = userBlogPostMock;
