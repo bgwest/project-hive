@@ -28,6 +28,7 @@
     "jest": "^23.6.0"
   },
   "scripts": {
+    "start": "node src/app.js",
     "test": "eslint . && jest --coverage --forceExit --runInBand",
     "jestSF": "./node_modules/jest/bin/jest.js --coverage --forceExit --runInBand $1",
     "justJest": "jest --coverage --forceExit --runInBand",
