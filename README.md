@@ -1,60 +1,69 @@
 # Project Hive
 ##### Protect the hive
-[![Build Status](https://travis-ci.com/bgwest/16-18-Authorization.svg?branch=18-asset-management)](https://travis-ci.com/bgwest/16-18-Authorization)
+[![Build Status](https://travis-ci.com/bgwest/project-hive.svg?branch=development)](https://travis-ci.com/bgwest/project-hive)
 ## Overview
 
-A raspberry pi running a restful API. Includes a database to manage user data including events and hashed access codes.
+A raspberry pi running a restful API. Includes a database to manage user data and events.
 
-##### Also note: 
-new npm scripts have been added including a bash script to easily manage the devDb: devDbOff, dbDevOn (see package.json)
+##### working routes:
 
-##### working routes & methods:
-
-routes and methods
+auth-router.js
 
 ## How To
 
-#### Example testing with just jest:
-
-```
-npm run devDbOn
-npm run justJest
-npm run devDbOff
-```
-
-#### Example testing manually via cli:
-
-```
-npm run devDbOn
-npm run start-server
-````
-
-## User Auth Account manual testing
+#### User Auth Account manual testing
 
 [x] signup
 
 ```
+[0]Benjamins-MBP:project-hive bwest$ echo '{"username":"brai123","password":"herpw","email":"brai@gmail.com","accesscode":"6542"}' | http localhost:3000/user/signup
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Length: 479
+Content-Type: application/json; charset=utf-8
+Date: Mon, 08 Oct 2018 22:48:29 GMT
+ETag: W/"1df-RLNW2fHlmhedgu0PBPiCgDHlTSU"
+X-Powered-By: Express
+
+{
+    "token": "long token string"
+}
+
+[0]Benjamins-MBP:project-hive bwest$
 ```
+
+[x] arm
+
+```
+
+```
+
 
 ## Tests Performed with Jest
 
 ###### testing app.js routes and responses.
 
-##### user-router.test.js
-
-* 1: words
-
-##### blog-post-router.test.js
-
-* 9: words
-
 #### auth-router.js
 
-* 13: test if 404 words
+* 1: test if 404 is returned if any route is invalid
+
+* 2: test if 200 is returned with a token on successful signup
+
+* 3: test if a 400 is sent body data is missing (e.g. username)
+
+* 4: test if a 400 is returned when no creation data is sent (no body)
+
+* 5: test if 200 and your token is returned on successful login
+
+* 6: test for 401 status if auth fails (aka bad pw or username)
+
+#### arm-router.js
+
+* coming soon
 
 #### image-router.js
 
-* POST - 200 - words
+* coming soon
 
 ### Installing
 

@@ -6,7 +6,7 @@ const jsonWebToken = require('jsonwebtoken'); // actually doing the crypto
 const bcrypt = require('bcrypt'); // this handles the hashing
 const HttpError = require('http-errors');
 
-// development note: on a production system, this would be >=9
+// development note: can make larger if needed, development system using 8
 const HASH_ROUNDS = 8;
 
 function hashAccessCode(code, callback) {

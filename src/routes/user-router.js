@@ -13,7 +13,7 @@ const router = module.exports = new express.Router();
 // home
 router.get('/', (request, response) => {
   logger.log(logger.INFO, '200 - Welcome to the Jungle /');
-  return response.status(200).send('<!DOCTYPE><html><header></header><body><div><p>cool beans.</p></div></body></html>');
+  return response.status(200).send('<!DOCTYPE><html><header></header><body><div><p>currently only CLI is supported.</p><p>See README.md for CLI examples.</p></div></body></html>');
 });
 
 // development note: used to create users

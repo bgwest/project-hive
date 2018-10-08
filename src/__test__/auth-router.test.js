@@ -25,6 +25,7 @@ describe('AUTH ROUTER', () => {
         username: faker.lorem.words(1),
         password: faker.lorem.words(1),
         email: faker.internet.email(),
+        accesscode: '4291',
       }).then((response) => {
         expect(response.status).toEqual(200);
         expect(response.body.token).toBeTruthy();
@@ -58,7 +59,6 @@ describe('AUTH ROUTER', () => {
         expect(response.body.token).toBeTruthy();
       });
   });
-
   test('test for 401 status if auth fails (aka bad pw or username)', () => {
     return mockAuthAccount.pCreateMock()
       .then((mock) => {
