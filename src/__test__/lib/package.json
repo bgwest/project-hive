@@ -1,0 +1,16 @@
+{
+  "request": {
+    "username": "Vesta_Mayert52",
+    "password": "rNTn1vAUU2hyEEy",
+    "email": "Bobbie79@gmail.com"
+  },
+  "account": {
+    "_id": "5bbad0e966c3849c2afc99c4",
+    "username": "Vesta_Mayert52",
+    "email": "Bobbie79@gmail.com",
+    "tokenSeed": "07597aacccd62324c5458bd960bc4be9a14b1b275f9973333c5472acac2bc66df846ccec0b43eb9bc12c076341a784b0a08a064a83cc99842134fc7e403860062f0e12eb427dbe9cb95656321a18e39396eb7452745530421228a4cf274c0231686056665723894ad666f6010e77774c08845b181bb19e96c5675726313ded0e",
+    "passwordHash": "$2b$08$/F1j36abJnM.LaPTgQQIZeDQUGWzn0K.i1mVUEQDW7Ac/JzanVaze",
+    "__v": 0
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblNlZWQiOiIwNzU5N2FhY2NjZDYyMzI0YzU0NThiZDk2MGJjNGJlOWExNGIxYjI3NWY5OTczMzMzYzU0NzJhY2FjMmJjNjZkZjg0NmNjZWMwYjQzZWI5YmMxMmMwNzYzNDFhNzg0YjBhMDhhMDY0YTgzY2M5OTg0MjEzNGZjN2U0MDM4NjAwNjJmMGUxMmViNDI3ZGJlOWNiOTU2NTYzMjFhMThlMzkzOTZlYjc0NTI3NDU1MzA0MjEyMjhhNGNmMjc0YzAyMzE2ODYwNTY2NjU3MjM4OTRhZDY2NmY2MDEwZTc3Nzc0YzA4ODQ1YjE4MWJiMTllOTZjNTY3NTcyNjMxM2RlZDBlIiwiaWF0IjoxNTM4OTY5ODMzfQ.kpmEy7hcJPCpi38uyCqqMuzNTtnmre1_jZ3HKZJJxWA"
+}
