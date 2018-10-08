@@ -27,7 +27,7 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 3, // this is to force at least a 3 letter abrev or encourage a description
   },
-  accesscode: {
+  accessCodeHash: {
     type: String,
     code: () => generateAccessCode(),
   },

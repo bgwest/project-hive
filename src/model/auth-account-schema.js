@@ -10,8 +10,8 @@ const HttpError = require('http-errors');
 const HASH_ROUNDS = 8;
 
 function hashAccessCode(code, callback) {
-  const bcryptReturn = bcrypt.hash(code, HASH_ROUNDS);
-  callback(bcryptReturn);
+  const bcryptReturn = bcrypt.hashSync(code, HASH_ROUNDS);
+  return callback(bcryptReturn);
 }
 
 function getHashCode(hashCode) {
@@ -38,7 +38,7 @@ const accountSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  accesscode: {
+  accessCodeHash: {
     type: String,
     required: true,
     unique: true,
@@ -91,11 +91,11 @@ const AuthAccount = module.exports = mongoose.model('account', accountSchema);
 
 
 AuthAccount.create = (username, email, password, accesscode) => {
+  const accessCodeHash = hashAccessCode(accesscode, getHashCode); // eslint-disable-line
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
-      accesscode = hashAccessCode(accesscode, getHashCode); // eslint-disable-line
-      // const hashCode = hashAccessCode(accesscode);
-      // accesscode = hashCode; //eslint-disable-line
+      // const hashCode = hashAccessCode(accessCodeHash);
+      // accessCodeHash = hashCode; //eslint-disable-line
       password = null; // eslint-disable-line no-param-reassign
       const tokenSeed = crypto.randomBytes(TOKEN_SEED_LENGTH).toString('hex');
       return new AuthAccount({
@@ -103,7 +103,7 @@ AuthAccount.create = (username, email, password, accesscode) => {
         email,
         tokenSeed,
         passwordHash,
-        accesscode,
+        accessCodeHash,
       }).save();
     });
 };
