@@ -2,16 +2,6 @@
 
 const mongoose = require('mongoose');
 
-function generateAccessCode() {
-  let accessCode = '';
-  const maxLength = 4;
-
-  for (let generateNumber = 0; generateNumber <= maxLength - 1; generateNumber++) {
-    accessCode += `${Math.round(Math.random() * 9)}`;
-  }
-  return accessCode;
-}
-
 const UserSchema = mongoose.Schema({
   timestamp: {
     type: Date,
@@ -27,11 +17,7 @@ const UserSchema = mongoose.Schema({
     required: true,
     minlength: 3, // this is to force at least a 3 letter abrev or encourage a description
   },
-  accessCodeHash: {
-    type: String,
-    code: () => generateAccessCode(),
-  },
-  images: [
+  blogPosts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'image-schema', // name of model in mongoose.model export

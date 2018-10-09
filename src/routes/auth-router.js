@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const HttpError = require('http-errors');
 
 const Account = require('../model/auth-account-schema');
+const MAS = require('../model/master-access-schema');
+const queryUsers = require('../lib/queryUsers');
 const logger = require('../lib/logger');
 const basicAuthMiddleWare = require('../lib/basic-auth-middleware');
 
@@ -35,6 +37,37 @@ router.get('/user/auth/login', basicAuthMiddleWare, (request, response, next) =>
   if (!request.account) {
     return next(new HttpError(400, 'Bad Request'));
   }
+
+  console.log(MAS);
+  // define query for MAS (Master Access List)
+  // const findMasterCodes = queryUsers.find(MAS, 'masterCodes');
+  // let masterCodes = {};
+  // queryUsers.query(findMasterCodes, (data) => {
+  //   masterCodes = data;
+  //   return data;
+  // });
+  // setTimeout(() => {
+  //   console.log('masterCodes:');
+  //   console.log(masterCodes);
+  // }, 4000);
+
+  // define query for AuthAccount
+  const findStuff = queryUsers.find(Account, 'username accessCodeHash');
+  let newContainer = {};
+  // fill query container with AuthAccount data
+  queryUsers.query(findStuff, (data) => {
+    newContainer = data;
+    return data;
+  });
+  // test that we are getting desired data
+  setTimeout(() => {
+    console.log(newContainer);
+  }, 2000);
+
+
+  // const data = queryUsers.find();
+  // console.log(data);
+
   // development note: here is assumed middleware did what it was suppose to
   return request.account.pCreateToken()
     .then((token) => {

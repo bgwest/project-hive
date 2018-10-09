@@ -47,12 +47,11 @@ const accountSchema = mongoose.Schema({
 
 const TOKEN_SEED_LENGTH = 128;
 
-
 function pVerifyPassword(plainTextPassword) {
   // uses current account schema
-  // e.g. .email, .tokenSeed, .passwordHash, .username
+  // e.g. .email, .tokenSeed, .passwordHash, .username, .accessCodeHash
 
-  // behind the scences bcrypt is hasing
+  // behind the scenes, bcrypt is hashing
   return bcrypt.compare(plainTextPassword, this.passwordHash)
     .then((compareResult) => {
       if (!compareResult) {
@@ -83,15 +82,39 @@ function pCreateToken() {
     });
 }
 
+function pGetCurrentAccessCodes(account) {
+// testing a query
+  const queryContainer = {};
+  const testQuery = account.find({});
+  testQuery.select('username accessCodeHash');
+  // console.log(testQuery);
+
+  // execute the query at a later time
+  testQuery.exec((error, user) => {
+    if (error) throw (error);
+    // Prints username and accessCodeHash
+    // console.log('username: %s, accessCodeHash: %s', user.username, user.accessCodeHash);
+    // console.log(user);
+    for (let loopQueryList = 0; loopQueryList <= user.length - 1; loopQueryList++) {
+      queryContainer[`${loopQueryList}`] = user[loopQueryList];
+    }
+    // testing new object functionality
+    // console.log(queryContainer);
+    console.log(queryContainer['0'].username);
+    console.log(queryContainer['1'].username);
+    return queryContainer;
+  });
+}
+
 // development note: adding pCreateToken to the account's prototype
 accountSchema.methods.pCreateToken = pCreateToken;
 accountSchema.methods.pVerifyPassword = pVerifyPassword;
+accountSchema.methods.pGetCurrentAccessCodes = pGetCurrentAccessCodes;
 
 const AuthAccount = module.exports = mongoose.model('account', accountSchema);
 
-
 AuthAccount.create = (username, email, password, accesscode) => {
-  const accessCodeHash = hashAccessCode(accesscode, getHashCode); // eslint-disable-line
+  const accessCodeHash = hashAccessCode(accesscode, getHashCode);
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
       // const hashCode = hashAccessCode(accessCodeHash);
