@@ -8,15 +8,21 @@ const MAS = mongoose.Schema({
     type: Date,
     default: () => new Date(),
   },
-  masterCodes: {
-    type: [],
-  },
+  masterCodes: [
+    {
+      type: String,
+    },
+  ],
 });
 
 const MasterAccountSchema = module.exports = mongoose.model('mas', MAS);
 
-MasterAccountSchema.create = (masterCodes) => {
-  return new MAS({
-    masterCodes,
-  });
-};
+// Create Initial Master List Schema
+// function createInitialMLS() {
+//   return new MasterAccountSchema({ masterCodes: [] }).save()
+//     .then((savedMAS) => {
+//       console.log(savedMAS);
+//     });
+// }
+//
+// createInitialMLS();
