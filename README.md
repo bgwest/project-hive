@@ -97,7 +97,9 @@ X-Powered-By: Express
 
 #### arm-router.js
 
-* coming soon
+* 1: testing VALID accesscode on arm route - should return isValid = true
+
+* 2: testing INVALID accesscode on arm route - should return isValid = false
 
 #### image-router.js
 

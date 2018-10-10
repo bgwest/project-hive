@@ -15,7 +15,7 @@ describe('', () => {
   beforeEach(authMock.pCleanAuthAccountMocks);
 
 
-  test('testing accesscode on arm route', () => {
+  test('testing VALID accesscode on arm route - should return isValid = true', () => {
     let savedMock = null; // eslint-disable-line
     return authMock.pCreateMock()
       .then((createdUserMock) => {
@@ -26,7 +26,7 @@ describe('', () => {
         expect(JSON.parse(getResponse.text).isValid).toBe(true);
       });
   });
-  test('testing accesscode a bad code and return false', () => {
+  test('testing INVALID accesscode on arm route - should return isValid = false', () => {
     let savedMock = null; // eslint-disable-line
     return authMock.pCreateMock()
       .then((createdUserMock) => {
