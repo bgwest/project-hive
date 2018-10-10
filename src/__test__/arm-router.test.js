@@ -15,7 +15,7 @@ describe('', () => {
   beforeEach(authMock.pCleanAuthAccountMocks);
 
 
-  test('testing VALID accesscode on arm route - should return isValid = true', () => {
+  test('testing VALID accesscode on ARM route - should return isValid = true', () => {
     let savedMock = null; // eslint-disable-line
     return authMock.pCreateMock()
       .then((createdUserMock) => {
@@ -26,12 +26,34 @@ describe('', () => {
         expect(JSON.parse(getResponse.text).isValid).toBe(true);
       });
   });
-  test('testing INVALID accesscode on arm route - should return isValid = false', () => {
+  test('testing INVALID accesscode on ARM route - should return isValid = false', () => {
     let savedMock = null; // eslint-disable-line
     return authMock.pCreateMock()
       .then((createdUserMock) => {
         savedMock = createdUserMock;
         return superagent.get(`${API_URL}/arm/2223`);
+      })
+      .then((getResponse) => {
+        expect(JSON.parse(getResponse.text).isValid).toBe(false);
+      });
+  });
+  test('testing VALID accesscode on DISARM route - should return isValid = true', () => {
+    let savedMock = null; // eslint-disable-line
+    return authMock.pCreateMock()
+      .then((createdUserMock) => {
+        savedMock = createdUserMock;
+        return superagent.get(`${API_URL}/disarm/${authMock.testAccessCode}`);
+      })
+      .then((getResponse) => {
+        expect(JSON.parse(getResponse.text).isValid).toBe(true);
+      });
+  });
+  test('testing INVALID accesscode on DISARM route - should return isValid = false', () => {
+    let savedMock = null; // eslint-disable-line
+    return authMock.pCreateMock()
+      .then((createdUserMock) => {
+        savedMock = createdUserMock;
+        return superagent.get(`${API_URL}/disarm/2223`);
       })
       .then((getResponse) => {
         expect(JSON.parse(getResponse.text).isValid).toBe(false);
