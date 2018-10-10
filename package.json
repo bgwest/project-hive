@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "test": "eslint . && jest --coverage --forceExit --runInBand",
+    "test": "eslint . && jest --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/lib/error-middleware.js --forceExit --runInBand",
     "jestSF": "./node_modules/jest/bin/jest.js --coverage --forceExit --runInBand $1",
     "justJest": "jest --coverage --forceExit --runInBand",
     "justLint": "./node_modules/eslint/bin/eslint.js ./src/*.js",
