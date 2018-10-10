@@ -29,7 +29,7 @@ function getHashCode(hashCode) {
 
 
 const verifyAccessCode = (plainTextPassword, hashValue, callback) => {
-  bcrypt.compare(plainTextPassword, hashValue, function (error, result) {
+  bcrypt.compare(plainTextPassword, hashValue, function (error, result) { //eslint-disable-line
     // console.log('verifyAccessCode called');
     if (!result) {
       // console.log('unmatched result:');
@@ -52,7 +52,7 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
   const findStuff = queryData.find(AuthAccount, 'accessCodeHash');
   let accessCodes = {};
   // fill query container with AuthAccount data
-  queryData.query(findStuff, function (data, error) {
+  queryData.query(findStuff, function (data, error) { //eslint-disable-line
     if (error) {
       return next(new HttpError(400, 'query error.'));
     }
@@ -63,7 +63,7 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
       for (let queryLength = 0; queryLength <= accessCodes.length - 1; queryLength++) {
         // console.log(queryLength);
         const checkHash = accessCodes[`${queryLength}`].accessCodeHash;
-        verifyAccessCode(passedAccess, checkHash, function (err, test) {
+        verifyAccessCode(passedAccess, checkHash, function (err, test) { //eslint-disable-line
           // console.log('test:');
           // console.log(test);
           if (err) {

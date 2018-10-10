@@ -12,7 +12,7 @@ queryData.find = (Model, findOptions) => {
 queryData.query = (function (data, callback) {
   const queryContainer = {};
   // execute the query at a later time
-  data.exec(function (error, user) {
+  data.exec(function (error, user) { //eslint-disable-line
     if (error) {
       callback(error);
     }
