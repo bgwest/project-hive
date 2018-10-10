@@ -15,7 +15,7 @@ const MAS = mongoose.Schema({
   ],
 });
 
-const MasterAccountSchema = module.exports = mongoose.model('mas', MAS);
+const MasterAccountSchema = module.exports = mongoose.model('mas', MAS); // eslint-disable-line
 
 // Create Initial Master List Schema
 // function createInitialMLS() {

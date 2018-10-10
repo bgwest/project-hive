@@ -3,7 +3,9 @@
 const faker = require('faker');
 const AuthAccount = require('../../model/auth-account-schema');
 
-const accountMock = module.exports = {};
+
+const authAccountMock = {};
+authAccountMock.testAccessCode = {};
 
 function generateAccessCode() {
   let accessCode = '';
@@ -15,7 +17,7 @@ function generateAccessCode() {
   return accessCode;
 }
 
-accountMock.pCreateMock = () => {
+authAccountMock.pCreateMock = () => {
   const mock = {};
   mock.request = {
     username: faker.internet.userName(),
@@ -23,6 +25,7 @@ accountMock.pCreateMock = () => {
     email: faker.internet.email(),
     accesscode: generateAccessCode(),
   };
+  authAccountMock.testAccessCode = mock.request.accesscode;
 
   return AuthAccount.create(mock.request.username,
     mock.request.email,
@@ -41,4 +44,5 @@ accountMock.pCreateMock = () => {
     });
 };
 
-accountMock.pCleanAuthAccountMocks = () => AuthAccount.remove({});
+authAccountMock.pCleanAuthAccountMocks = () => AuthAccount.remove({});
+module.exports = authAccountMock;

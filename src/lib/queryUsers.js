@@ -1,8 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-const Account = require('../model/auth-account-schema');
-
 const queryUsers = {};
 
 queryUsers.find = (Model, findOptions) => {

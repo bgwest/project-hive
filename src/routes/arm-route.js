@@ -6,7 +6,7 @@ const HttpError = require('http-errors');
 const bcrypt = require('bcrypt');
 const logger = require('../lib/logger');
 
-const MAS = require('../model/master-access-schema');
+// const MAS = require('../model/master-access-schema');
 const AuthAccount = require('../model/auth-account-schema');
 const queryUsers = require('../lib/queryUsers');
 
