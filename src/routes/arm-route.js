@@ -47,39 +47,7 @@ const verifyAccessCode = (plainTextPassword, hashValue, callback) => {
   });
 };
 
-router.get('/arm/:id', jsonParser, (request, response, next) => {
-  // ensure accessCodeResult is reset each time
-  accessCodeResult = false;
-  // store access code for param deletion
-  let passedAccess = null;
-  logger.log(logger.INFO, `Checking id for arm: ${request.params.id}`);
-  if (!request.params.id) {
-    logger.log(logger.INFO, 'no access code given.');
-    return next(new HttpError(400, 'missing parameters'));
-  }
-  // else, store access code and delete param
-  passedAccess = request.params.id;
-  delete request.params.id;
-
-  // hash incoming access code for compare
-  const accessCodeHash = hashAccessCode(passedAccess, getHashCode);
-  if (!accessCodeHash) {
-    logger.log(logger.INFO, 'passcode failed hash failed.');
-    return next(new HttpError(400, 'failed hash.'));
-  }
-
-  // define query for MAS (Master Access List)
-  // const findMasterCodes = queryUsers.find(MAS, 'masterCodes');
-  // let masterCodes = {};
-  // queryUsers.query(findMasterCodes, (data) => {
-  //   masterCodes = data;
-  //   return data;
-  // });
-  // setTimeout(() => {
-  //   console.log('masterCodes:');
-  //   console.log(masterCodes);
-  // }, 4000);
-
+const masterAccessValidation = (passedAccess, request, response, next) => {
   // define query for AuthAccount
   const findStuff = queryUsers.find(AuthAccount, 'accessCodeHash');
   let accessCodes = {};
@@ -124,5 +92,38 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
     }
     return undefined;
   });
+};
+
+router.get('/arm/:id', jsonParser, (request, response, next) => {
+  // ensure accessCodeResult is reset each time
+  accessCodeResult = false;
+  logger.log(logger.INFO, `Checking id for arm: ${request.params.id}`);
+  if (!request.params.id) {
+    logger.log(logger.INFO, 'no access code given.');
+    return next(new HttpError(400, 'missing parameters'));
+  }
+  // else, store access code and delete param
+  const passedAccess = request.params.id;
+  delete request.params.id;
+
+  // hash incoming access code for compare
+  const accessCodeHash = hashAccessCode(passedAccess, getHashCode);
+  if (!accessCodeHash) {
+    logger.log(logger.INFO, 'passcode failed hash failed.');
+    return next(new HttpError(400, 'failed hash.'));
+  }
+
+  masterAccessValidation(passedAccess, request, response, next);
+  // define query for MAS (Master Access List)
+  // const findMasterCodes = queryUsers.find(MAS, 'masterCodes');
+  // let masterCodes = {};
+  // queryUsers.query(findMasterCodes, (data) => {
+  //   masterCodes = data;
+  //   return data;
+  // });
+  // setTimeout(() => {
+  //   console.log('masterCodes:');
+  //   console.log(masterCodes);
+  // }, 4000);
   return undefined;
 });
