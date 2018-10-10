@@ -25,7 +25,7 @@ const stampConstructor = () => {
 const newStamp = stampConstructor();
 // -----Camera Function------------------------
 const camera = new RaspiCam({
-  output: `./assets/picture-storage/villain-${newStamp}.jpeg`,
+  output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
   mode: 'photo',
 });
 
