@@ -73,8 +73,19 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
             if (accessCodeResult === true) {
               // loop will keep checking until it's complete asyncronously... but...
               // as soon as it finds a match this is the only thread that will continue on in logic
-              console.log('\nRun jason and kris\'s code\n');
               queryLength = accessCodes.length - 1;
+              // get sent path
+              const getPath = request.url.split('/')[1];
+
+              if (getPath === 'arm') {
+                console.log('\nRun jason and kris\'s code for arm.\n');
+              }
+              if (getPath === 'disarm') {
+                console.log('\nRun jason and kris\'s code for disarm.\n');
+              }
+              if (getPath !== 'disarm' && getPath !== 'arm') {
+                return next(new HttpError(400, 'something went wrong. consult your admin.'));
+              }
               return response.json({ message: 'verified', accesscode: passedAccess, isValid: accessCodeResult });
             }
           }
@@ -126,8 +137,29 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
   //   console.log('masterCodes:');
   //   console.log(masterCodes);
   // }, 4000);
-
   masterAccessValidation(passedAccess, request, response, next);
+  return undefined;
+});
 
+router.get('/disarm/:id', jsonParser, (request, response, next) => {
+  console.log(request.url);
+  // ensure accessCodeResult is reset each time
+  accessCodeResult = false;
+  logger.log(logger.INFO, `Checking id for disarm: ${request.params.id}`);
+  if (!request.params.id) {
+    logger.log(logger.INFO, 'no access code given.');
+    return next(new HttpError(400, 'missing parameters'));
+  }
+  // else, store access code and delete param
+  const passedAccess = request.params.id;
+  delete request.params.id;
+
+  // hash incoming access code for compare
+  const accessCodeHash = hashAccessCode(passedAccess, getHashCode);
+  if (!accessCodeHash) {
+    logger.log(logger.INFO, 'passcode failed hash failed.');
+    return next(new HttpError(400, 'failed hash.'));
+  }
+  masterAccessValidation(passedAccess, request, response, next);
   return undefined;
 });
