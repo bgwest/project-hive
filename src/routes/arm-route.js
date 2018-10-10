@@ -6,6 +6,12 @@ const HttpError = require('http-errors');
 const bcrypt = require('bcrypt');
 const logger = require('../lib/logger');
 
+// imports arm and disarm functions
+const AlarmControls = require('../lib/alarm-system');
+// allows us to call the armSystem and disarmSystem functions
+// using alarmControl.armSystem or alarmControl.disarmSystem
+const alarmControl = new AlarmControls();
+
 // const MAS = require('../model/master-access-schema');
 const AuthAccount = require('../model/auth-account-schema');
 const queryData = require('../lib/queryData');
@@ -79,9 +85,11 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
 
               if (getPath === 'arm') {
                 console.log('\nRun jason and kris\'s code for arm.\n');
+                alarmControl.armSystem();
               }
               if (getPath === 'disarm') {
                 console.log('\nRun jason and kris\'s code for disarm.\n');
+                alarmControl.disarmSystem();
               }
               if (getPath !== 'disarm' && getPath !== 'arm') {
                 return next(new HttpError(400, 'something went wrong. consult your admin.'));
