@@ -20,7 +20,6 @@ router.get('/', (request, response) => {
 //   this can be seen as the final 'node' in the middleware linked list
 router.post('/new/user', jsonParser, (request, response, next) => {
   logger.log(logger.INFO, 'Attempting to create new user:');
-  // console.log(request.body);
   return new ModelUser(request.body).save()
     .then((savedUser) => {
       logger.log(logger.INFO, 'Responding with 200');

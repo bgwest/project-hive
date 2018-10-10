@@ -10,6 +10,7 @@ const errorMiddleware = require('./error-middleware');
 
 const userRoutes = require('../routes/user-router');
 const authAccountRoutes = require('../routes/auth-router');
+const armRoutes = require('../routes/arm-route');
 // const imageRoutes = require('../routes/image-router');
 
 const app = express();
@@ -22,6 +23,7 @@ const app = express();
 app.use(loggerMiddleware);
 app.use(userRoutes);
 app.use(authAccountRoutes);
+app.use(armRoutes);
 // app.use(imageRoutes);
 
 app.all('*', (request, response) => {

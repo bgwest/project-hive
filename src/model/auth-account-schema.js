@@ -47,12 +47,11 @@ const accountSchema = mongoose.Schema({
 
 const TOKEN_SEED_LENGTH = 128;
 
-
 function pVerifyPassword(plainTextPassword) {
   // uses current account schema
-  // e.g. .email, .tokenSeed, .passwordHash, .username
+  // e.g. .email, .tokenSeed, .passwordHash, .username, .accessCodeHash
 
-  // behind the scences bcrypt is hasing
+  // behind the scenes, bcrypt is hashing
   return bcrypt.compare(plainTextPassword, this.passwordHash)
     .then((compareResult) => {
       if (!compareResult) {
@@ -89,9 +88,8 @@ accountSchema.methods.pVerifyPassword = pVerifyPassword;
 
 const AuthAccount = module.exports = mongoose.model('account', accountSchema);
 
-
 AuthAccount.create = (username, email, password, accesscode) => {
-  const accessCodeHash = hashAccessCode(accesscode, getHashCode); // eslint-disable-line
+  const accessCodeHash = hashAccessCode(accesscode, getHashCode);
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
       // const hashCode = hashAccessCode(accessCodeHash);

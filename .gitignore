@@ -1,3 +1,6 @@
+# ignore testing hash file for this project
+testingHashing.js
+
 # ignore testing temp/ dir for aws local testing
 temp/
 
