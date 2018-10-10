@@ -27,44 +27,45 @@ function getHashCode(hashCode) {
   return hashCode;
 }
 
-const verifyAccessCode = (plainTextPassword, hashValue) => {
-  // uses current account schema
-  // e.g. .email, .tokenSeed, .passwordHash, .username, .accessCodeHash
 
-  // behind the scenes, bcrypt is hashing
-  console.log('verifyAccessCode called');
-  return bcrypt.compare(plainTextPassword, hashValue)
-    .then((compareResult) => {
-      if (!compareResult) {
-        console.log('unmatched result:');
-        console.log(compareResult);
-        return false;
-      }
-      if (compareResult) {
-        console.log('matched result:');
-        console.log(compareResult);
-        accessCodeResult = true;
-        return accessCodeResult;
-      }
-      return undefined;
-    })
-    .catch((error) => {
-      throw error;
-    });
+const verifyAccessCode = (plainTextPassword, hashValue, callback) => {
+  bcrypt.compare(plainTextPassword, hashValue, function (error, result) {
+    // console.log('verifyAccessCode called');
+    if (!result) {
+      // console.log('unmatched result:');
+      // console.log(result);
+      callback(null, result);
+    }
+    if (result) {
+      // console.log('matched result:');
+      // console.log(result);
+      accessCodeResult = true;
+      callback(null, result);
+    }
+    // anything else callback error
+    // callback(error);
+  });
 };
 
 router.get('/arm/:id', jsonParser, (request, response, next) => {
   // ensure accessCodeResult is reset each time
   accessCodeResult = false;
+  // store access code for param deletion
+  let passedAccess = null;
   logger.log(logger.INFO, `Checking id for arm: ${request.params.id}`);
   if (!request.params.id) {
     logger.log(logger.INFO, 'no access code given.');
     return next(new HttpError(400, 'missing parameters'));
   }
+  // else, store access code and delete param
+  passedAccess = request.params.id;
+  delete request.params.id;
+
   // hash incoming access code for compare
-  const accessCodeHash = hashAccessCode(request.params.id, getHashCode);
+  const accessCodeHash = hashAccessCode(passedAccess, getHashCode);
   if (!accessCodeHash) {
     logger.log(logger.INFO, 'passcode failed hash failed.');
+    return next(new HttpError(400, 'failed hash.'));
   }
 
   // define query for MAS (Master Access List)
@@ -83,29 +84,45 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
   const findStuff = queryUsers.find(AuthAccount, 'accessCodeHash');
   let accessCodes = {};
   // fill query container with AuthAccount data
-  queryUsers.query(findStuff, (data) => {
-    accessCodes = data;
-    return data;
+  queryUsers.query(findStuff, function (data, error) {
+    if (error) {
+      return next(new HttpError(400, 'query error.'));
+    }
+    if (data) {
+      accessCodes = data;
+      // convert accessCodes into iterable array
+      accessCodes = Object.values(accessCodes);
+      for (let queryLength = 0; queryLength <= accessCodes.length - 1; queryLength++) {
+        // console.log(queryLength);
+        const checkHash = accessCodes[`${queryLength}`].accessCodeHash;
+        verifyAccessCode(passedAccess, checkHash, function (err, test) {
+          // console.log('test:');
+          // console.log(test);
+          if (err) {
+            return next(new HttpError(400, 'accessCode error consult system admin.'));
+          }
+          if (test) {
+            if (accessCodeResult === true) {
+              // loop will keep checking until it's complete asyncronously... but...
+              // as soon as it finds a match this is the only thread that will continue on in logic
+              console.log('\nRun jason and kris\'s code\n');
+              queryLength = accessCodes.length - 1;
+              return response.json({ message: 'verified', accesscode: passedAccess, isValid: accessCodeResult });
+            }
+          }
+          if (accessCodeResult !== true && queryLength === accessCodes.length - 1) {
+            // console.log('queryLength = ' + queryLength);
+            console.log('\nNo code runs...\n');
+            return response.json({ message: 'bad access code', accesscode: passedAccess, isValid: accessCodeResult });
+          }
+          return undefined;
+        });
+        if (accessCodeResult) {
+          break;
+        }
+      }
+    }
+    return undefined;
   });
-  // test that we are getting desired data
-  setTimeout(() => {
-    // console.log(Object.values(accessCodes).length);
-    accessCodes = Object.values(accessCodes);
-    for (let queryLength = 0; queryLength <= accessCodes.length - 1; queryLength++) {
-      const checkHash = accessCodes[`${queryLength}`].accessCodeHash;
-      console.log(checkHash);
-      verifyAccessCode(request.params.id, checkHash);
-    }
-    console.log('accessCodeResult:');
-    console.log(accessCodeResult);
-  }, 1000);
-  setTimeout(() => {
-    if (accessCodeResult) {
-      console.log('\nRun jason and kris\'s code\n');
-      return response.json({ message: 'verified', accesscode: request.params.id, isValid: accessCodeResult });
-    }
-    console.log('\nNo code runs...\n');
-    return response.json({ message: 'bad access code', accesscode: request.params.id, isValid: accessCodeResult });
-  }, 2000);
   return undefined;
 });
