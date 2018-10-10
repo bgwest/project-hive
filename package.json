@@ -15,6 +15,9 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.17",
     "multer": "^1.4.0",
+    "node-aplay": "^1.0.3",
+    "onoff": "^3.2.2",
+    "raspicam": "^0.2.14",
     "superagent": "^4.0.0-beta.5",
     "uuid": "^3.3.2",
     "winston": "^3.1.0"

@@ -1,3 +1,6 @@
+# do not store images in github 
+src/lib/assets/picture-storage/
+
 # ignore testing hash file for this project
 testingHashing.js
 
