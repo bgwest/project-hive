@@ -1,15 +1,15 @@
 'use strict';
 
-const queryUsers = {};
+const queryData = {};
 
-queryUsers.find = (Model, findOptions) => {
+queryData.find = (Model, findOptions) => {
   const testQuery = Model.find({});
   // find option syntax is space delimited
   // e.g. 'username accessCodeHash'
   return testQuery.select(findOptions);
 };
 
-queryUsers.query = (function (data, callback) {
+queryData.query = (function (data, callback) {
   const queryContainer = {};
   // execute the query at a later time
   data.exec(function (error, user) {
@@ -28,4 +28,4 @@ queryUsers.query = (function (data, callback) {
   });
 });
 
-module.exports = queryUsers;
+module.exports = queryData;

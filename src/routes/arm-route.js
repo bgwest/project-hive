@@ -8,7 +8,7 @@ const logger = require('../lib/logger');
 
 // const MAS = require('../model/master-access-schema');
 const AuthAccount = require('../model/auth-account-schema');
-const queryUsers = require('../lib/queryUsers');
+const queryData = require('../lib/queryData');
 
 const jsonParser = bodyParser.json();
 // this handles the hashing
@@ -49,10 +49,10 @@ const verifyAccessCode = (plainTextPassword, hashValue, callback) => {
 
 const masterAccessValidation = (passedAccess, request, response, next) => {
   // define query for AuthAccount
-  const findStuff = queryUsers.find(AuthAccount, 'accessCodeHash');
+  const findStuff = queryData.find(AuthAccount, 'accessCodeHash');
   let accessCodes = {};
   // fill query container with AuthAccount data
-  queryUsers.query(findStuff, function (data, error) {
+  queryData.query(findStuff, function (data, error) {
     if (error) {
       return next(new HttpError(400, 'query error.'));
     }
@@ -113,11 +113,12 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
     return next(new HttpError(400, 'failed hash.'));
   }
 
-  masterAccessValidation(passedAccess, request, response, next);
+  // stretch goal to get master schema to work!!! :)
+
   // define query for MAS (Master Access List)
-  // const findMasterCodes = queryUsers.find(MAS, 'masterCodes');
+  // const findMasterCodes = queryData.find(MAS, 'masterCodes');
   // let masterCodes = {};
-  // queryUsers.query(findMasterCodes, (data) => {
+  // queryData.query(findMasterCodes, (data) => {
   //   masterCodes = data;
   //   return data;
   // });
@@ -125,5 +126,8 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
   //   console.log('masterCodes:');
   //   console.log(masterCodes);
   // }, 4000);
+
+  masterAccessValidation(passedAccess, request, response, next);
+
   return undefined;
 });
