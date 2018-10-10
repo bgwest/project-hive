@@ -16,26 +16,64 @@ auth-router.js
 [x] signup
 
 ```
-[0]Benjamins-MBP:project-hive bwest$ echo '{"username":"brai123","password":"herpw","email":"brai@gmail.com","accesscode":"6542"}' | http localhost:3000/user/signup
+[0]Benjamins-MBP:project-hive bwest$ echo '{"username":"bwest","password":"testing","email":"ben@gmail.com","accesscode":"4129"}' | http https://project-hive.herokuapp.com/user/signup
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Length: 479
 Content-Type: application/json; charset=utf-8
-Date: Mon, 08 Oct 2018 22:48:29 GMT
-ETag: W/"1df-RLNW2fHlmhedgu0PBPiCgDHlTSU"
+Date: Wed, 10 Oct 2018 00:40:13 GMT
+Etag: W/"1df-L3Ya9L/5FrSFykA0/NIAAlIm6Js"
+Server: Cowboy
+Via: 1.1 vegur
 X-Powered-By: Express
 
 {
     "token": "long token string"
 }
 
+[0]Benjamins-MBP:project-hive bwest$ 
+```
+
+[x] arm example passing [ validated code, non-existent code ]
+
+```
+[0]Benjamins-MBP:project-hive bwest$ 
+[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/4129
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Length: 57
+Content-Type: application/json; charset=utf-8
+Date: Wed, 10 Oct 2018 00:42:59 GMT
+Etag: W/"39-PzpqiAy/VBOlVa7oDONUEgsRNl8"
+Server: Cowboy
+Via: 1.1 vegur
+X-Powered-By: Express
+
+{
+    "accesscode": "4129",
+    "isValid": true,
+    "message": "verified"
+}
+
+[0]Benjamins-MBP:project-hive bwest$ 
+[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/3000
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Length: 65
+Content-Type: application/json; charset=utf-8
+Date: Wed, 10 Oct 2018 00:43:11 GMT
+Etag: W/"41-NQuKQVBHNLK6Jl00Z025Dh+Da3k"
+Server: Cowboy
+Via: 1.1 vegur
+X-Powered-By: Express
+
+{
+    "accesscode": "3000",
+    "isValid": false,
+    "message": "bad access code"
+}
+
 [0]Benjamins-MBP:project-hive bwest$
-```
-
-[x] arm
-
-```
-
 ```
 
 
