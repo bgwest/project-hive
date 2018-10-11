@@ -5,6 +5,10 @@
 
 A raspberry pi running a restful API. Includes a database to manage user data and events.
 
+- A security system built to run from a Raspberry Pi
+
+- 
+
 ##### working routes:
 
 auth-router.js, arm-router.js
