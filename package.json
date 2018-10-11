@@ -40,7 +40,10 @@
     "dbDevOn": "mkdir -p ./testdb && mongod --dbpath ./testdb",
     "devDbOff": "./killDevDb.sh",
     "dbOn": "mkdir -p ./db && mongod --dbpath ./db",
-    "dbOff": "killall mongod"
+    "dbOff": "killall mongod",
+    "signup": "./test-hive.sh signup",
+    "arm": "./test-hive.sh arm",
+    "disarm": "./test-hive.sh disarm"
   },
   "repository": {
     "type": "git",
