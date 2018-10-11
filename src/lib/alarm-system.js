@@ -13,6 +13,15 @@ const warning = new Gpio(23, 'out');
 const alarm = new Gpio(25, 'out');
 const pir = new Gpio(17, 'in', 'both');
 
+// -----Sound Assets-----------------------------------------------------------------------------
+const armedSound = new Sound('./src/lib/assets/sound-assets/system-armed.wav');
+const armingSound = new Sound('./src/lib/assets/sound-assets/system-arming.wav');
+const armingBeep = new Sound('./src/lib/assets/sound-assets/arming-beep.wav');
+const motionSound = new Sound('./src/lib/assets/sound-assets/villain-detected.wav');
+const alarmSound = new Sound('./src/lib/assets/sound-assets/intruder-2.wav');
+const disarmedSound = new Sound('./src/lib/assets/sound-assets/cool-beans-access-code-accepted.wav');
+
+
 // -----Timeout-----------------------------------------------------------------------------------
 const ARMING_SYSTEM = 10000;
 const ALARM = 10000;
@@ -30,16 +39,10 @@ const camera = new RaspiCam({
 });
 
 const takePicture = () => {
+  motionSound.play();
   camera.start();
 };
 
-// -----Sound Assets-----------------------------------------------------------------------------
-const armedSound = new Sound('./src/lib/assets/sound-assets/system-armed.wav');
-const armingSound = new Sound('./src/lib/assets/sound-assets/system-arming.wav');
-const armingBeep = new Sound('./src/lib/assets/sound-assets/arming-beep.wav');
-const motionSound = new Sound('./src/lib/assets/sound-assets/villain-detected.wav');
-const alarmSound = new Sound('./src/lib/assets/sound-assets/vin-alarm.wav');
-const disarmedSound = new Sound('./src/lib/assets/sound-assets/system-disarmed-welcome-home.wav');
 
 //  -----Turns ON/OFF the Red LED (DISARM INDICATOR)-----------------------------------------------
 const disarmedOn = () => {
@@ -62,8 +65,7 @@ const warningLightOn = () => {
   if (warning.readSync() === 0) {
     warning.writeSync(1);
   }
-  logger.log(logger.INFO, 'Arming System');
-  armingSound.play();
+  logger.log(logger.INFO, 'Warning');
 };
 
 // -----Turns OFF the Blue LED (WARNING INDICATOR)------------------------------------------------
@@ -117,7 +119,6 @@ const activatePIR = () => {
       warningLightOn();
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
-      motionSound.play();
       pir.unexport();
     }
   });
@@ -139,6 +140,8 @@ const systemArmed = () => {
 
 module.exports = class AlarmControls {
   armSystem() {
+    armingSound.play();
+    armingBeep.play();
     console.log('try to arm system');
     disarmedOff();
     console.log('turn off disarm light');
