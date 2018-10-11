@@ -32,13 +32,16 @@ const stampConstructor = () => {
 };
 const newStamp = stampConstructor();
 // -----Camera Function------------------------
-const camera = new RaspiCam({
-  output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
-  mode: 'photo',
-});
+let camera;
 
 const takePicture = () => {
+  camera = new RaspiCam({
+    output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
+    mode: 'photo',
+  });
   camera.start();
+  camera.stop();
+  camera = null;
   logger.log(logger.INFO, 'Photo Taken');
 };
 
@@ -125,8 +128,6 @@ const activatePIR = () => {
     }
   });
 };
-
-
 
 const systemArmed = () => {
   if (disarmed.readSync() === 0) {
