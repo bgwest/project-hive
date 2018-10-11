@@ -1,4 +1,7 @@
-# Project Hive ![houselogo](./src/lib/assets/project-logos/project-hive-og-house-large-solo.png) ![hivelogo](./src/lib/assets/project-logos/project-hive-og-logo-large-cleaner-solo.png)
+# Project Hive
+
+![houselogo](./src/lib/assets/project-logos/project-hive-og-house-large-solo.png) ![hivelogo](./src/lib/assets/project-logos/project-hive-og-logo-large-cleaner-solo.png)
+
 ##### Protect the hive
 
 ## Overview
