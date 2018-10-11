@@ -30,13 +30,6 @@
 
 ## How To
 
-### Usage
-- To create an account, send a POST request to the user route with a username, password, email, and access code
-- To arm the system, send a GET request to the arm route with a valid access code
-    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
-- To disarm the system, send a GET request to the disarm route with a valid access code
-    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
-
 ### Setup
 
 #### Following steps must be done on the pi
@@ -47,6 +40,13 @@
 - Run 'node src/app.js' to turn on the server
 
 #### Send requests from any locally connected computer
+
+### Usage
+- To create an account, send a POST request to the user route with a username, password, email, and access code
+- To arm the system, send a GET request to the arm route with a valid access code
+    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
+- To disarm the system, send a GET request to the disarm route with a valid access code
+    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
 
 ### Example requests
 
