@@ -33,10 +33,6 @@ const takePicture = () => {
   camera.start();
 };
 
-const turnCameraOff = () => {
-  camera.stop();
-};
-
 // -----Sound Assets-----------------------------------------------------------------------------
 // const armedSound = new Sound('./assets/sound-assets/vin-armed');
 // const armingSound = new Sound('./assets/sound-assets/vin-arming.wav');
@@ -100,7 +96,6 @@ const alarmOn = () => {
     logger.log(logger.INFO, 'Alarm on');
     // alarmSound.play();
     takePicture();
-    setTimeout(turnCameraOff, 10000);
   }
 };
 
