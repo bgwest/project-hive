@@ -39,8 +39,8 @@ const camera = new RaspiCam({
 });
 
 const takePicture = () => {
-  motionSound.play();
   camera.start();
+  motionSound.play();
 };
 
 
@@ -112,7 +112,6 @@ const activatePIR = () => {
   pir.watch((error, value) => {
     if (error) {
       pir.unexport();
-      process.exit();
       logger.log(logger.INFO, 'PIR Error');
     }
     if (value === 1 && disarmed.readSync() !== 1) {
