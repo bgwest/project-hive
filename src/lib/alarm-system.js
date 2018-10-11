@@ -14,8 +14,8 @@ const alarm = new Gpio(25, 'out');
 const pir = new Gpio(17, 'in', 'both');
 
 // -----Timeout-----------------------------------------------------------------------------------
-const ARMING_SYSTEM = 30000;
-const ALARM = 30000;
+const ARMING_SYSTEM = 10000;
+const ALARM = 10000;
 // -----Camera Function and Dependencies----------------------------------------------------------
 // -----Timestamp Constructor------------------
 const stampConstructor = () => {
@@ -138,9 +138,13 @@ const systemArmed = () => {
 
 module.exports = class AlarmControls {
   armSystem() {
+    console.log('try to arm system');
     disarmedOff();
+    console.log('turn off disarm light');
     warningLightOn();
+    console.log('turn on warning light');
     setTimeout(systemArmed, ARMING_SYSTEM);
+    console.log('timout fired to call sytemArmed');
   }
 
   disarmSystem() {
