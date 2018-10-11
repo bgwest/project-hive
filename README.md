@@ -1,4 +1,4 @@
-# Project Hive ![logo](project-hive-og-house-large-solo.png)
+# Project Hive ![logo](src/lib/assets/project-logos/project-hive-og-house-large-solo.png)
 ##### Protect the hive
 
 ## Overview
@@ -50,7 +50,7 @@
 
 ### Example requests
 
-[x] Example signup
+#### Example signup
 
 Entered into command line:
 ```
@@ -71,7 +71,7 @@ X-Powered-By: Express
 }
 ```
 
-[x] Example of arming system with a valid access code
+#### Example of arming system with a valid access code
 
 Entered into command line:
 ```
@@ -94,7 +94,7 @@ X-Powered-By: Express
 }
 ```
 
-[x] Example of disarming system with valid access code
+#### Example of disarming system with valid access code
 
 Entered into command line:
 ```
