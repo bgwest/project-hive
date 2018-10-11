@@ -3,15 +3,37 @@
 [![Build Status](https://travis-ci.com/bgwest/project-hive.svg?branch=development)](https://travis-ci.com/bgwest/project-hive)
 ## Overview
 
-A raspberry pi running a restful API. Includes a database to manage user data and events.
+###Description
+- A home security system on a Raspberry Pi running a restful API
+- Armed, arming, disarmed, alarm, and motion detection states are currently represented by four LED's
+    - Green LED: armed state
+    - Red LED: disarmed state
+    - Yellow LED: alarm state
+    - Blue LED: currently arming or warning states
+- Takes picture of intruder ?
+- Outputs sounds depending on state ?
+- You may send commands to the pi from a locally connected computer
+- Pi communicates with a Heroku database to store user information and pictures taken
 
-- A security system built to run from a Raspberry Pi
+### Usage
+- To create an account, send in a username, password, email, and access code
+- To arm the system, send a GET request to the arm route with a valid access code
+    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
+- To disarm the system, send a GET request to the disarm route with a valid access code
+    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
 
-- 
+### Security
+- When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
+- If a valid disarm request is not sent during those 30 seconds, the alarm state will activate
+- 5 seconds after the alarm state activates, the camera will snap a picture
 
-##### working routes:
-
-auth-router.js, arm-router.js
+### Pi components
+(Pi schematic picture)
+- Raspberry Pi 3
+- Breadboard ?
+- PIR motion sensor ?
+- Raspicam ?
+- wires ?
 
 ## How To
 
@@ -38,7 +60,7 @@ X-Powered-By: Express
 [0]Benjamins-MBP:project-hive bwest$ 
 ```
 
-[x] arm example passing [ validated code, non-existent code ]
+[x] arm example passing [ validated code, invalid code ]
 
 ```
 [0]Benjamins-MBP:project-hive bwest$ 
@@ -105,10 +127,6 @@ X-Powered-By: Express
 
 * 2: testing INVALID accesscode on arm route - should return isValid = false
 
-#### image-router.js
-
-* coming soon
-
 ### Installing
 
 To use this in your code:
@@ -119,7 +137,7 @@ To use this in your code:
 
 ## Built With
 
-** Please see package.json to confirm dependency details.
+** Please see package.json to confirm dependency details
 
 ## Contributing
 
@@ -131,7 +149,7 @@ Please feel free to contribute. Master branch auto merge locked for approval for
 
 ## Authors
 
-![CF](http://i.imgur.com/7v5ASc8.png) **Brai Frauen**, **Jason Hiskey**, **Kristian Esvelt**, **Benjamin West**
+![CF](http://i.imgur.com/7v5ASc8.png) [**Brai Frauen**](https://github.com/ashabrai), [**Jason Hiskey**](https://github.com/jlhiskey), [**Kristian Esvelt**](https://github.com/kris3579), [**Benjamin West**](https://github.com/bgwest)
 
 ## License
 
