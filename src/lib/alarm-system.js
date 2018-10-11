@@ -117,8 +117,8 @@ const activatePIR = () => {
       warningLightOn();
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
-      pir.unexport();
       motionSound.play();
+      pir.unexport();
     }
   });
 };
