@@ -21,7 +21,6 @@ const motionSound = new Sound('./src/lib/assets/sound-assets/villain-detected.wa
 const alarmSound = new Sound('./src/lib/assets/sound-assets/intruder-2.wav');
 const disarmedSound = new Sound('./src/lib/assets/sound-assets/cool-beans-access-code-accepted.wav');
 
-
 // -----Timeout-----------------------------------------------------------------------------------
 const ARMING_SYSTEM = 10000;
 const ALARM = 10000;
@@ -40,19 +39,16 @@ const camera = new RaspiCam({
 
 const takePicture = () => {
   camera.start();
-  motionSound.play();
+  logger.log(logger.INFO, 'Photo Taken');
 };
-
 
 //  -----Turns ON/OFF the Red LED (DISARM INDICATOR)-----------------------------------------------
 const disarmedOn = () => {
   if (disarmed.readSync() === 0) {
     disarmed.writeSync(1);
   }
-  logger.log(logger.INFO, 'Disarmed successfully');
   disarmedSound.play();
 };
-
 
 const disarmedOff = () => {
   if (disarmed.readSync() === 1) {
@@ -80,7 +76,6 @@ const armedOn = () => {
   if (armed.readSync() === 0) {
     armed.writeSync(1);
   }
-  logger.log(logger.INFO, 'System Armed');
   armedSound.play();
 };
 
@@ -108,26 +103,30 @@ const alarmOff = () => {
   }
 };
 
+const pirOff = () => {
+  if (disarmed.readSync() === 0) {
+    pir.unexport();
+    console.log('PIR OFF');
+  }
+};
+
 const activatePIR = () => {
   pir.watch((error, value) => {
     if (error) {
-      pir.unexport();
+      pirOff();
       logger.log(logger.INFO, 'PIR Error');
     }
     if (value === 1 && disarmed.readSync() !== 1) {
       warningLightOn();
+      motionSound.play();
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
-      pir.unexport();
+      pirOff();
     }
   });
 };
 
-const pirOff = () => {
-  if (disarmed.readSync() === 0) {
-    pir.unexport();
-  }
-};
+
 
 const systemArmed = () => {
   if (disarmed.readSync() === 0) {
@@ -139,30 +138,24 @@ const systemArmed = () => {
 
 module.exports = class AlarmControls {
   armSystem() {
+    logger.log(logger.INFO, 'Arming System');
     armingSound.play();
     armingBeep.play();
-    console.log('try to arm system');
     disarmedOff();
-    console.log('turn off disarm light');
     warningLightOn();
-    console.log('turn on warning light');
     setTimeout(systemArmed, ARMING_SYSTEM);
-    console.log('timeout fired to call sytemArmed');
+    logger.log(logger.INFO, 'System Armed');
   }
 
   disarmSystem() {
     if (disarmed.readSync() === 0) {
-      logger.log(logger.INFO, 'Disarm System');
+      logger.log(logger.INFO, 'Disarming System');
       warningLightOff();
-      logger.log(logger.INFO, 'Warning Light Off');
       armedOff();
-      logger.log(logger.INFO, 'Armed Off');
       alarmOff();
-      logger.log(logger.INFO, 'Alarm Off');
       pirOff();
-      logger.log(logger.INFO, 'PIR Off');
       disarmedOn();
-      logger.log(logger.INFO, 'Disarm On');
+      logger.log(logger.INFO, 'System Disarmed');
     } else {
       logger.log(logger.INFO, 'System Already Disabled');
     }
