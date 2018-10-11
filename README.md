@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/bgwest/project-hive.svg?branch=development)](https://travis-ci.com/bgwest/project-hive)
 ## Overview
 
-###Description
+### Description
 - A home security system on a Raspberry Pi running a restful API
 - Armed, arming, disarmed, alarm, and motion detection states are currently represented by four LED's
     - Green LED: armed state
@@ -39,67 +39,71 @@
 
 #### User Auth Account manual testing
 
-[x] signup
+[x] Example signup
 
+Entered into command line:
 ```
-[0]Benjamins-MBP:project-hive bwest$ echo '{"username":"bwest","password":"testing","email":"ben@gmail.com","accesscode":"4129"}' | http https://project-hive.herokuapp.com/user/signup
+echo '{"username":"kris3579","password":"password","email":"kristianesvelt@hotmail.com","accesscode":"3579"}' | http http://172.16.5.234:3000/user/signup
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Length: 479
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:40:13 GMT
-Etag: W/"1df-L3Ya9L/5FrSFykA0/NIAAlIm6Js"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:11:07 GMT
+ETag: W/"1df-JOrcMNYu+m0VeiuhQPtoPcbAeM8"
 X-Powered-By: Express
 
 {
     "token": "long token string"
 }
-
-[0]Benjamins-MBP:project-hive bwest$ 
 ```
 
-[x] arm example passing [ validated code, invalid code ]
+[x] Example of arming system with a valid access code
 
+Entered into command line:
 ```
-[0]Benjamins-MBP:project-hive bwest$ 
-[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/4129
+http http://172.16.5.234:3000/arm/3579
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Length: 57
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:42:59 GMT
-Etag: W/"39-PzpqiAy/VBOlVa7oDONUEgsRNl8"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:15:49 GMT
+ETag: W/"39-Xk+/H75ASfjKS3J94l5hQy3q9UA"
 X-Powered-By: Express
 
 {
-    "accesscode": "4129",
+    "accesscode": "3579",
     "isValid": true,
     "message": "verified"
 }
+```
 
-[0]Benjamins-MBP:project-hive bwest$ 
-[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/3000
+[x] Example of disarming system with valid access code
+
+Entered into command line:
+```
+http http://172.16.5.234:3000/disarm/3579
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
-Content-Length: 65
+Content-Length: 57
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:43:11 GMT
-Etag: W/"41-NQuKQVBHNLK6Jl00Z025Dh+Da3k"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:24:34 GMT
+ETag: W/"39-Xk+/H75ASfjKS3J94l5hQy3q9UA"
 X-Powered-By: Express
 
 {
-    "accesscode": "3000",
-    "isValid": false,
-    "message": "bad access code"
+    "accesscode": "3579",
+    "isValid": true,
+    "message": "verified"
 }
-
-[0]Benjamins-MBP:project-hive bwest$
 ```
 
 
