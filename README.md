@@ -1,7 +1,5 @@
 ![hivelogo](./src/lib/assets/project-logos/project-hive-og-logo-large-cleaner-solo.png) ![houselogo](./src/lib/assets/project-logos/project-hive-og-house-large-solo.png)
 
-##### Protect the hive
-
 ## Overview
 ### Description
 - A home security system on a Raspberry Pi running a restful API
@@ -10,13 +8,14 @@
     - Red LED: disarmed state
     - Yellow LED: alarm state
     - Blue LED: currently arming or warning states
+- Motion sensor triggers a warning state, which will change to an alarm state after 30 seconds
 - Takes picture of intruder 5 seconds after the alarm is triggered
 - Outputs wav file depending on state change
 - You may send commands to the pi from a locally connected computer
 - Pi communicates with a Heroku database to store user information and pictures taken
 
 ### Security
-- When armed, if the motion sensor detects any movement, the warning state will activate for 10 seconds
+- When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
 - If a valid disarm request is not sent during those 30 seconds, the alarm state will activate
 - 5 seconds after the alarm state activates, the camera will snap a picture
 
