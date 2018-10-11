@@ -28,6 +28,7 @@ let camera;
 
 const takePicture = () => {
   camera.start();
+  camera = undefined;
 };
 
 // -----Sound Assets-----------------------------------------------------------------------------
