@@ -1,8 +1,7 @@
 # Project Hive
 ##### Protect the hive
-[![Build Status](https://travis-ci.com/bgwest/project-hive.svg?branch=development)](https://travis-ci.com/bgwest/project-hive)
-## Overview
 
+## Overview
 ### Description
 - A home security system on a Raspberry Pi running a restful API
 - Armed, arming, disarmed, alarm, and motion detection states are currently represented by four LED's
@@ -10,20 +9,13 @@
     - Red LED: disarmed state
     - Yellow LED: alarm state
     - Blue LED: currently arming or warning states
-- Takes picture of intruder ?
-- Outputs sounds depending on state ?
+- Takes picture of intruder 5 seconds after the alarm is triggered
+- Outputs wav file depending on state change
 - You may send commands to the pi from a locally connected computer
 - Pi communicates with a Heroku database to store user information and pictures taken
 
-### Usage
-- To create an account, send in a username, password, email, and access code
-- To arm the system, send a GET request to the arm route with a valid access code
-    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
-- To disarm the system, send a GET request to the disarm route with a valid access code
-    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
-
 ### Security
-- When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
+- When armed, if the motion sensor detects any movement, the warning state will activate for 10 seconds
 - If a valid disarm request is not sent during those 30 seconds, the alarm state will activate
 - 5 seconds after the alarm state activates, the camera will snap a picture
 
@@ -38,7 +30,25 @@
 
 ## How To
 
-#### User Auth Account manual testing
+### Usage
+- To create an account, send a POST request to the user route with a username, password, email, and access code
+- To arm the system, send a GET request to the arm route with a valid access code
+    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
+- To disarm the system, send a GET request to the disarm route with a valid access code
+    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
+
+### Setup
+
+#### Following steps must be done on the pi
+
+- Ensure node is installed on pi
+- Git clone this repo
+- npm install
+- Run 'node src/app.js' to turn on the server
+
+#### Send requests from any locally connected computer
+
+### Example requests
 
 [x] Example signup
 
@@ -107,10 +117,9 @@ X-Powered-By: Express
 }
 ```
 
+## Testing
 
-## Tests Performed with Jest
-
-###### testing app.js routes and responses.
+### Testing Framework: jest
 
 #### auth-router.js
 
@@ -132,13 +141,9 @@ X-Powered-By: Express
 
 * 2: testing INVALID accesscode on arm route - should return isValid = false
 
-### Installing
+* 3: testing VALID accesscode on disarm route - should return isValid = true
 
-To use this in your code:
-
-- git clone repo 
-- npm install 
-- require('../src/app.js')
+* 4: testing INVALID accesscode on disarm route - should return isValid = false
 
 ## Built With
 
