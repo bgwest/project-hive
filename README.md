@@ -1,5 +1,4 @@
-# Project Hive ![logo](project-hive-og-house-large-solo.png)
-##### Protect the hive
+![hivelogo](./src/lib/assets/project-images/project-hive-og-logo-large-cleaner-solo.png) ![houselogo](./src/lib/assets/project-images/project-hive-og-house-large-solo.png)
 
 ## Overview
 ### Description
@@ -9,18 +8,19 @@
     - Red LED: disarmed state
     - Yellow LED: alarm state
     - Blue LED: currently arming or warning states
+- Motion sensor triggers a warning state, which will change to an alarm state after 30 seconds
 - Takes picture of intruder 5 seconds after the alarm is triggered
 - Outputs wav file depending on state change
 - You may send commands to the pi from a locally connected computer
 - Pi communicates with a Heroku database to store user information and pictures taken
 
 ### Security
-- When armed, if the motion sensor detects any movement, the warning state will activate for 10 seconds
+- When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
 - If a valid disarm request is not sent during those 30 seconds, the alarm state will activate
 - 5 seconds after the alarm state activates, the camera will snap a picture
 
 ### Pi components
-(Pi schematic picture)
+![hivelogo](./src/lib/assets/project-images/pi-diagram.png)
 - Raspberry Pi 3
 - Breadboard
 - PIR (motion sensor)
@@ -29,13 +29,6 @@
 - Dupont wires
 
 ## How To
-
-### Usage
-- To create an account, send a POST request to the user route with a username, password, email, and access code
-- To arm the system, send a GET request to the arm route with a valid access code
-    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
-- To disarm the system, send a GET request to the disarm route with a valid access code
-    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
 
 ### Setup
 
@@ -48,9 +41,16 @@
 
 #### Send requests from any locally connected computer
 
+### Usage
+- To create an account, send a POST request to the user route with a username, password, email, and access code
+- To arm the system, send a GET request to the arm route with a valid access code
+    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
+- To disarm the system, send a GET request to the disarm route with a valid access code
+    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
+
 ### Example requests
 
-[x] Example signup
+#### Example signup
 
 Entered into command line:
 ```
@@ -71,7 +71,7 @@ X-Powered-By: Express
 }
 ```
 
-[x] Example of arming system with a valid access code
+#### Example of arming system with a valid access code
 
 Entered into command line:
 ```
@@ -94,7 +94,7 @@ X-Powered-By: Express
 }
 ```
 
-[x] Example of disarming system with valid access code
+#### Example of disarming system with valid access code
 
 Entered into command line:
 ```
@@ -153,9 +153,7 @@ X-Powered-By: Express
 
 Please feel free to contribute. Master branch auto merge locked for approval for non-contributors.
 
-## Versioning
-
-*n/a*
+## Future updates
 
 ## Authors
 
