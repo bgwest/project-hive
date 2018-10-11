@@ -153,9 +153,7 @@ X-Powered-By: Express
 
 Please feel free to contribute. Master branch auto merge locked for approval for non-contributors.
 
-## Versioning
-
-*n/a*
+## Future updates
 
 ## Authors
 
