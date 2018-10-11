@@ -34,11 +34,12 @@ const takePicture = () => {
 };
 
 // -----Sound Assets-----------------------------------------------------------------------------
-// const armedSound = new Sound('./assets/sound-assets/vin-armed');
-// const armingSound = new Sound('./assets/sound-assets/vin-arming.wav');
-// const motionSound = new Sound('./assets/sound-assets/vin-motion.wav');
-// const alarmSound = new Sound('./assets/sound-assets/vin-alarm.wav');
-// const disarmedSound = new Sound('./assets/sound-assets/vin-disarmed.wav');
+const armedSound = new Sound('./assets/sound-assets/system-armed.wav');
+const armingSound = new Sound('./assets/sound-assets/system-arming.wav');
+const armingBeep = new Sound('./assets/sound-assets/arming-beep.wav');
+const motionSound = new Sound('./assets/sound-assets/villain-detected.wav');
+const alarmSound = new Sound('./assets/sound-assets/vin-alarm.wav');
+const disarmedSound = new Sound('./assets/sound-assets/system-disarmed-welcome-home.wav');
 
 //  -----Turns ON/OFF the Red LED (DISARM INDICATOR)-----------------------------------------------
 const disarmedOn = () => {
@@ -46,7 +47,7 @@ const disarmedOn = () => {
     disarmed.writeSync(1);
   }
   logger.log(logger.INFO, 'Disarmed successfully');
-  // disarmedSound.play();
+  disarmedSound.play();
 };
 
 
@@ -62,7 +63,7 @@ const warningLightOn = () => {
     warning.writeSync(1);
   }
   logger.log(logger.INFO, 'Arming System');
-  // armingSound.play();
+  armingSound.play();
 };
 
 // -----Turns OFF the Blue LED (WARNING INDICATOR)------------------------------------------------
@@ -78,7 +79,7 @@ const armedOn = () => {
     armed.writeSync(1);
   }
   logger.log(logger.INFO, 'System Armed');
-  // armedSound.play();
+  armedSound.play();
 };
 
 const armedOff = () => {
@@ -94,7 +95,7 @@ const alarmOn = () => {
   if (disarmed.readSync() === 0) {
     alarm.writeSync(1);
     logger.log(logger.INFO, 'Alarm on');
-    // alarmSound.play();
+    alarmSound.play();
     takePicture();
   }
 };
@@ -117,7 +118,7 @@ const activatePIR = () => {
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
       pir.unexport();
-      // motionSound();
+      motionSound.play();
     }
   });
 };
