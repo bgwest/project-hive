@@ -34,11 +34,12 @@ const takePicture = () => {
 };
 
 // -----Sound Assets-----------------------------------------------------------------------------
-// const armedSound = new Sound('./assets/sound-assets/vin-armed');
-// const armingSound = new Sound('./assets/sound-assets/vin-arming.wav');
-// const motionSound = new Sound('./assets/sound-assets/vin-motion.wav');
-// const alarmSound = new Sound('./assets/sound-assets/vin-alarm.wav');
-// const disarmedSound = new Sound('./assets/sound-assets/vin-disarmed.wav');
+const armedSound = new Sound('./assets/sound-assets/system-armed.wav');
+const armingSound = new Sound('./assets/sound-assets/system-arming.wav');
+const armingBeep = new Sound('./assets/sound-assets/arming-beep.wav');
+const motionSound = new Sound('./assets/sound-assets/villain-detected.wav');
+const alarmSound = new Sound('./assets/sound-assets/vin-alarm.wav');
+const disarmedSound = new Sound('./assets/sound-assets/system-disarmed-welcome-home.wav');
 
 //  -----Turns ON/OFF the Red LED (DISARM INDICATOR)-----------------------------------------------
 const disarmedOn = () => {
