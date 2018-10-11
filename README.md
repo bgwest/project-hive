@@ -1,4 +1,4 @@
-![hivelogo](./src/lib/assets/project-logos/project-hive-og-logo-large-cleaner-solo.png) ![houselogo](./src/lib/assets/project-logos/project-hive-og-house-large-solo.png)
+![hivelogo](./src/lib/assets/project-images/project-hive-og-logo-large-cleaner-solo.png) ![houselogo](./src/lib/assets/project-images/project-hive-og-house-large-solo.png)
 
 ## Overview
 ### Description
@@ -20,7 +20,7 @@
 - 5 seconds after the alarm state activates, the camera will snap a picture
 
 ### Pi components
-(Pi schematic picture)
+![hivelogo](./src/lib/assets/project-images/pi-diagram.png)
 - Raspberry Pi 3
 - Breadboard
 - PIR (motion sensor)
