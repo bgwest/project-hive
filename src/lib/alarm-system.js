@@ -47,7 +47,7 @@ const disarmedOn = () => {
     disarmed.writeSync(1);
   }
   logger.log(logger.INFO, 'Disarmed successfully');
-  // disarmedSound.play();
+  disarmedSound.play();
 };
 
 
@@ -63,7 +63,7 @@ const warningLightOn = () => {
     warning.writeSync(1);
   }
   logger.log(logger.INFO, 'Arming System');
-  // armingSound.play();
+  armingSound.play();
 };
 
 // -----Turns OFF the Blue LED (WARNING INDICATOR)------------------------------------------------
@@ -79,7 +79,7 @@ const armedOn = () => {
     armed.writeSync(1);
   }
   logger.log(logger.INFO, 'System Armed');
-  // armedSound.play();
+  armedSound.play();
 };
 
 const armedOff = () => {
@@ -95,7 +95,7 @@ const alarmOn = () => {
   if (disarmed.readSync() === 0) {
     alarm.writeSync(1);
     logger.log(logger.INFO, 'Alarm on');
-    // alarmSound.play();
+    alarmSound.play();
     takePicture();
   }
 };
@@ -118,7 +118,7 @@ const activatePIR = () => {
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
       pir.unexport();
-      // motionSound();
+      motionSound();
     }
   });
 };
