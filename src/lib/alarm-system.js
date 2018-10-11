@@ -24,11 +24,13 @@ const stampConstructor = () => {
 };
 const newStamp = stampConstructor();
 // -----Camera Function------------------------
-let camera;
+const camera = new RaspiCam({
+  output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
+  mode: 'photo',
+});
 
 const takePicture = () => {
   camera.start();
-  camera = undefined;
 };
 
 // -----Sound Assets-----------------------------------------------------------------------------
@@ -93,10 +95,6 @@ const alarmOn = () => {
     alarm.writeSync(1);
     logger.log(logger.INFO, 'Alarm on');
     // alarmSound.play();
-    camera = new RaspiCam({
-      output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
-      mode: 'photo',
-    });
     takePicture();
   }
 };

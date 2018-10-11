@@ -30,10 +30,11 @@
 ### Pi components
 (Pi schematic picture)
 - Raspberry Pi 3
-- Breadboard ?
-- PIR motion sensor ?
-- Raspicam ?
-- wires ?
+- Breadboard
+- PIR (motion sensor)
+- Pi/Arduino camera
+- 4 different colored LED's
+- Dupont wires
 
 ## How To
 
