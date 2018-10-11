@@ -131,4 +131,4 @@ Please feel free to contribute. Master branch auto merge locked for approval for
 
 ## License
 
-*none*
+MIT
