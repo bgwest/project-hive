@@ -11,7 +11,7 @@ const disarmed = new Gpio(24, 'out');
 const armed = new Gpio(18, 'out');
 const warning = new Gpio(23, 'out');
 const alarm = new Gpio(25, 'out');
-const pir = new Gpio(17, 'in', 'both');
+let pir;
 
 // -----Sound Assets-----------------------------------------------------------------------------
 const armedSound = new Sound('./src/lib/assets/sound-assets/system-armed.wav');
@@ -108,12 +108,13 @@ const alarmOff = () => {
 
 const pirOff = () => {
   if (disarmed.readSync() === 0) {
-    pir.unexport();
+    pir = null;
     console.log('PIR OFF');
   }
 };
 
 const activatePIR = () => {
+  pir = new Gpio(17, 'in', 'both');
   pir.watch((error, value) => {
     if (error) {
       pirOff();
