@@ -24,10 +24,7 @@ const stampConstructor = () => {
 };
 const newStamp = stampConstructor();
 // -----Camera Function------------------------
-const camera = new RaspiCam({
-  output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
-  mode: 'photo',
-});
+let camera;
 
 const takePicture = () => {
   camera.start();
@@ -95,6 +92,10 @@ const alarmOn = () => {
     alarm.writeSync(1);
     logger.log(logger.INFO, 'Alarm on');
     // alarmSound.play();
+    camera = new RaspiCam({
+      output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
+      mode: 'photo',
+    });
     takePicture();
   }
 };
@@ -117,7 +118,6 @@ const activatePIR = () => {
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
       pir.unexport();
-      process.exit();
       // motionSound();
     }
   });
@@ -145,7 +145,7 @@ module.exports = class AlarmControls {
     warningLightOn();
     console.log('turn on warning light');
     setTimeout(systemArmed, ARMING_SYSTEM);
-    console.log('timout fired to call sytemArmed');
+    console.log('timeout fired to call sytemArmed');
   }
 
   disarmSystem() {
