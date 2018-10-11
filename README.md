@@ -1,4 +1,4 @@
-# Project Hive
+# Project Hive ![logo](project-hive-og-house-large-solo.png)
 ##### Protect the hive
 
 ## Overview
