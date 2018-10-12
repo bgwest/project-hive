@@ -14,7 +14,7 @@ Beta v1.0
     - Yellow LED: alarm state
     - Blue LED: currently arming or warning states
 - Motion sensor triggers a warning state, which will change to an alarm state after 30 seconds
-- Takes picture of intruder 5 seconds after the alarm is triggered
+- Takes picture of intruder 5 seconds after the alarm is triggered and picture is stored on local FS
 - Outputs wav file depending on state change
 - You may send commands to the pi from a locally connected computer
 - Pi communicates with a Heroku database to store user information
