@@ -41,9 +41,10 @@
     "devDbOff": "./killDevDb.sh",
     "dbOn": "mkdir -p ./db && mongod --dbpath ./db",
     "dbOff": "killall mongod",
-    "signup": "./test-hive.sh signup",
-    "arm": "./test-hive.sh arm",
-    "disarm": "./test-hive.sh disarm"
+    "signup": "./presentation/test-hive.sh signup",
+    "arm": "./presentation/test-hive.sh arm",
+    "disarm": "./presentation/test-hive.sh disarm",
+    "more-signups": "./presentation/test-hive.sh more-signups"
   },
   "repository": {
     "type": "git",

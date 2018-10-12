@@ -73,11 +73,11 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
               const getPath = request.url.split('/')[1];
 
               if (getPath === 'arm') {
-                console.log('\nRun jason and kris\'s code for arm.\n');
+                // console.log('\nRun jason and kris\'s code for arm.\n');
                 alarmControl.armSystem();
               }
               if (getPath === 'disarm') {
-                console.log('\nRun jason and kris\'s code for disarm.\n');
+                // console.log('\nRun jason and kris\'s code for disarm.\n');
                 alarmControl.disarmSystem();
               }
               if (getPath !== 'disarm' && getPath !== 'arm') {
