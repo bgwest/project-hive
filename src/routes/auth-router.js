@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const HttpError = require('http-errors');
 
 const Account = require('../model/auth-account-schema');
-// const MAS = require('../model/master-access-schema');
 const logger = require('../lib/logger');
 const basicAuthMiddleWare = require('../lib/basic-auth-middleware');
 

@@ -92,8 +92,6 @@ AuthAccount.create = (username, email, password, accesscode) => {
   const accessCodeHash = hashAccessCode(accesscode, getHashCode);
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
-      // const hashCode = hashAccessCode(accessCodeHash);
-      // accessCodeHash = hashCode; //eslint-disable-line
       password = null; // eslint-disable-line no-param-reassign
       const tokenSeed = crypto.randomBytes(TOKEN_SEED_LENGTH).toString('hex');
       return new AuthAccount({
