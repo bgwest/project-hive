@@ -12,7 +12,6 @@ const AlarmControls = require('../lib/alarm-system');
 // using alarmControl.armSystem or alarmControl.disarmSystem
 const alarmControl = new AlarmControls();
 
-// const MAS = require('../model/master-access-schema');
 const AuthAccount = require('../model/auth-account-schema');
 const queryData = require('../lib/queryData');
 
@@ -36,20 +35,13 @@ function getHashCode(hashCode) {
 
 const verifyAccessCode = (plainTextPassword, hashValue, callback) => {
   bcrypt.compare(plainTextPassword, hashValue, function (error, result) { //eslint-disable-line
-    // console.log('verifyAccessCode called');
     if (!result) {
-      // console.log('unmatched result:');
-      // console.log(result);
       callback(null, result);
     }
     if (result) {
-      // console.log('matched result:');
-      // console.log(result);
       accessCodeResult = true;
       callback(null, result);
     }
-    // anything else callback error
-    // callback(error);
   });
 };
 
@@ -67,17 +59,14 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
       // convert accessCodes into iterable array
       accessCodes = Object.values(accessCodes);
       for (let queryLength = 0; queryLength <= accessCodes.length - 1; queryLength++) {
-        // console.log(queryLength);
         const checkHash = accessCodes[`${queryLength}`].accessCodeHash;
         verifyAccessCode(passedAccess, checkHash, function (err, test) { //eslint-disable-line
-          // console.log('test:');
-          // console.log(test);
           if (err) {
             return next(new HttpError(400, 'accessCode error consult system admin.'));
           }
           if (test) {
             if (accessCodeResult === true) {
-              // loop will keep checking until it's complete asyncronously... but...
+              // loop will keep checking until it's complete asynchronously... but...
               // as soon as it finds a match this is the only thread that will continue on in logic
               queryLength = accessCodes.length - 1;
               // get sent path
@@ -98,7 +87,6 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
             }
           }
           if (accessCodeResult !== true && queryLength === accessCodes.length - 1) {
-            // console.log('queryLength = ' + queryLength);
             console.log('\nNo code runs...\n');
             return response.json({ message: 'bad access code', accesscode: passedAccess, isValid: accessCodeResult });
           }
@@ -132,19 +120,6 @@ router.get('/arm/:id', jsonParser, (request, response, next) => {
     return next(new HttpError(400, 'failed hash.'));
   }
 
-  // stretch goal to get master schema to work!!! :)
-
-  // define query for MAS (Master Access List)
-  // const findMasterCodes = queryData.find(MAS, 'masterCodes');
-  // let masterCodes = {};
-  // queryData.query(findMasterCodes, (data) => {
-  //   masterCodes = data;
-  //   return data;
-  // });
-  // setTimeout(() => {
-  //   console.log('masterCodes:');
-  //   console.log(masterCodes);
-  // }, 4000);
   masterAccessValidation(passedAccess, request, response, next);
   return undefined;
 });
