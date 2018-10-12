@@ -103,10 +103,10 @@ const alarmOff = () => {
   }
 };
 
-const pirOff = () => {
+const pirOff = (pir) => { // eslint-disable-line
   if (disarmed.readSync() === 0) {
     pir.unexport();
-    pir = 0;
+    pir = 0; // eslint-disable-line
     console.log('PIR OFF');
   }
 };
@@ -116,7 +116,7 @@ const activatePIR = () => {
   pir = new Gpio(17, 'in', 'both');
   pir.watch((error, value) => {
     if (error) {
-      pirOff();
+      pirOff(pir);
       logger.log(logger.INFO, 'PIR Error');
     }
     if (value === 1 && disarmed.readSync() !== 1) {
