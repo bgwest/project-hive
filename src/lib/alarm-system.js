@@ -103,10 +103,8 @@ const alarmOff = () => {
   }
 };
 
-const pirOff = (pir) => { // eslint-disable-line
+const pirOff = () => {
   if (disarmed.readSync() === 0) {
-    pir.unexport();
-    pir = 0; // eslint-disable-line
     console.log('PIR OFF');
   }
 };
@@ -126,6 +124,7 @@ const activatePIR = () => {
       logger.log(logger.INFO, 'Villain Detected');
       pirOff();
     }
+    pir.unexport();
   });
 };
 
