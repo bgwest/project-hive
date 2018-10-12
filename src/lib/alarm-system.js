@@ -40,7 +40,6 @@ const takePicture = () => {
     mode: 'photo',
   });
   camera.start();
-  camera.stop();
   camera = null;
   logger.log(logger.INFO, 'Photo Taken');
 };
