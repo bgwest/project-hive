@@ -1,6 +1,7 @@
 'use strict';
 
 // demo-version of arm-route to demo the callback functions with console.log
+// name ending in .test so that it is not checked by jest
 
 const express = require('express');
 const bodyParser = require('body-parser');
