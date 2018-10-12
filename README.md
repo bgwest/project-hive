@@ -17,7 +17,7 @@ Beta v1.0
 - Takes picture of intruder 5 seconds after the alarm is triggered
 - Outputs wav file depending on state change
 - You may send commands to the pi from a locally connected computer
-- Pi communicates with a Heroku database to store user information and pictures taken
+- Pi communicates with a Heroku database to store user information
 
 ### Security
 - When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
@@ -167,8 +167,7 @@ In upcoming releases we plan to:
 
 * Repeat alarm sound until the system is disarmed
 * Integrate either photo burst or video instead of single picture on villain detection
-* Faster reaction time from after villain is detected, to triggering pi camera
-* Utilize database to log villain events and also log each time the system is armed / disarmed 
+* Utilize database to log villain events, log each time the system is armed / disarmed, and store villain pictures
 * Trigger a text message / email to be sent if villain is detected while system is armed with link to video / photos
 * Front end to utilize account tokens for Web UI to access pictures and system event data
 * Allow user creation from Web UI
