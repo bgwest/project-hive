@@ -72,8 +72,8 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
         console.log(queryLength);
         const checkHash = accessCodes[`${queryLength}`].accessCodeHash;
         verifyAccessCode(passedAccess, checkHash, function (err, test) { //eslint-disable-line
-          console.log('test:');
-          console.log(test);
+          // console.log('test:');
+          // console.log(test);
           if (err) {
             return next(new HttpError(400, 'accessCode error consult system admin.'));
           }

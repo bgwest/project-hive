@@ -43,7 +43,8 @@
     "dbOff": "killall mongod",
     "signup": "./test-hive.sh signup",
     "arm": "./test-hive.sh arm",
-    "disarm": "./test-hive.sh disarm"
+    "disarm": "./test-hive.sh disarm",
+    "more-signups": "./test-hive.sh more-signups"
   },
   "repository": {
     "type": "git",
