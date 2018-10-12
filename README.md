@@ -1,6 +1,11 @@
-![hivelogo](./src/lib/assets/project-images/project-hive-og-logo-large-cleaner-solo.png) ![houselogo](./src/lib/assets/project-images/project-hive-og-house-large-solo.png)
+![hivelogo](./src/lib/assets/project-images/project-hive-og-logo-large-cleaner-solo.png)
 
 ## Overview
+
+### Current version
+
+Beta v1.0
+
 ### Description
 - A home security system on a Raspberry Pi running a restful API
 - Armed, arming, disarmed, alarm, and motion detection states are currently represented by four LED's
@@ -39,9 +44,12 @@
 - npm install
 - Run 'node src/app.js' to turn on the server
 
-#### Send requests from any locally connected computer
+## Usage
 
-### Usage
+![houselogo](./src/lib/assets/project-images/project-hive-og-house-large-solo.png)
+
+##### Send requests from any locally connected computer
+
 - To create an account, send a POST request to the user route with a username, password, email, and access code
 - To arm the system, send a GET request to the arm route with a valid access code
     - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
@@ -153,7 +161,20 @@ X-Powered-By: Express
 
 Please feel free to contribute. Master branch auto merge locked for approval for non-contributors.
 
-## Future updates
+## Planned Enhancements 
+
+In upcoming releases we plan to:
+
+* Repeat alarm sound until the system is disarmed
+* Integrate either photo burst or video instead of single picture on villain detection
+* Faster reaction time from after villain is detected, to triggering pi camera
+* Utilize database to log villain events and also log each time the system is armed / disarmed 
+* Trigger a text message / email to be sent if villain is detected while system is armed with link to video / photos
+* Front end to utilize account tokens for Web UI to access pictures and system event data
+* Allow user creation from Web UI
+* View villain cam live on Web UI
+* Configure PI traffic to be forwarded back and forth between cloud instance for completely remote access outside your home
+
 
 ## Authors
 
