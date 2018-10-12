@@ -32,15 +32,13 @@ const stampConstructor = () => {
 };
 const newStamp = stampConstructor();
 // -----Camera Function------------------------
-let camera;
+const camera = new RaspiCam({
+  output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
+  mode: 'photo',
+});
 
 const takePicture = () => {
-  camera = new RaspiCam({
-    output: `./src/lib/assets/picture-storage/villain-${newStamp}.jpeg`,
-    mode: 'photo',
-  });
   camera.start();
-  camera = null;
   logger.log(logger.INFO, 'Photo Taken');
 };
 
