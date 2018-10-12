@@ -11,11 +11,19 @@ const disarmed = new Gpio(24, 'out');
 const armed = new Gpio(18, 'out');
 const warning = new Gpio(23, 'out');
 const alarm = new Gpio(25, 'out');
-const pir = new Gpio(17, 'in', 'both');
+let pir = 0;
+
+// -----Sound Assets-----------------------------------------------------------------------------
+const armedSound = new Sound('./src/lib/assets/sound-assets/system-armed.wav');
+const armingSound = new Sound('./src/lib/assets/sound-assets/system-arming.wav');
+const armingBeep = new Sound('./src/lib/assets/sound-assets/arming-beep.wav');
+const motionSound = new Sound('./src/lib/assets/sound-assets/villain-detected.wav');
+const alarmSound = new Sound('./src/lib/assets/sound-assets/intruder-2.wav');
+const disarmedSound = new Sound('./src/lib/assets/sound-assets/cool-beans-access-code-accepted.wav');
 
 // -----Timeout-----------------------------------------------------------------------------------
-const ARMING_SYSTEM = 30000;
-const ALARM = 30000;
+const ARMING_SYSTEM = 10000;
+const ALARM = 10000;
 // -----Camera Function and Dependencies----------------------------------------------------------
 // -----Timestamp Constructor------------------
 const stampConstructor = () => {
@@ -31,24 +39,16 @@ const camera = new RaspiCam({
 
 const takePicture = () => {
   camera.start();
+  logger.log(logger.INFO, 'Photo Taken');
 };
-
-// -----Sound Assets-----------------------------------------------------------------------------
-// const armedSound = new Sound('./assets/sound-assets/vin-armed');
-// const armingSound = new Sound('./assets/sound-assets/vin-arming.wav');
-// const motionSound = new Sound('./assets/sound-assets/vin-motion.wav');
-// const alarmSound = new Sound('./assets/sound-assets/vin-alarm.wav');
-// const disarmedSound = new Sound('./assets/sound-assets/vin-disarmed.wav');
 
 //  -----Turns ON/OFF the Red LED (DISARM INDICATOR)-----------------------------------------------
 const disarmedOn = () => {
   if (disarmed.readSync() === 0) {
     disarmed.writeSync(1);
   }
-  logger.log(logger.INFO, 'Disarmed successfully');
-  // disarmedSound.play();
+  disarmedSound.play();
 };
-
 
 const disarmedOff = () => {
   if (disarmed.readSync() === 1) {
@@ -61,8 +61,7 @@ const warningLightOn = () => {
   if (warning.readSync() === 0) {
     warning.writeSync(1);
   }
-  logger.log(logger.INFO, 'Arming System');
-  // armingSound.play();
+  logger.log(logger.INFO, 'Warning');
 };
 
 // -----Turns OFF the Blue LED (WARNING INDICATOR)------------------------------------------------
@@ -77,8 +76,7 @@ const armedOn = () => {
   if (armed.readSync() === 0) {
     armed.writeSync(1);
   }
-  logger.log(logger.INFO, 'System Armed');
-  // armedSound.play();
+  armedSound.play();
 };
 
 const armedOff = () => {
@@ -94,7 +92,7 @@ const alarmOn = () => {
   if (disarmed.readSync() === 0) {
     alarm.writeSync(1);
     logger.log(logger.INFO, 'Alarm on');
-    // alarmSound.play();
+    alarmSound.play();
     takePicture();
   }
 };
@@ -105,27 +103,29 @@ const alarmOff = () => {
   }
 };
 
+const pirOff = () => {
+  if (disarmed.readSync() === 0) {
+    console.log('PIR OFF');
+  }
+};
+
 const activatePIR = () => {
+  pir = 0;
+  pir = new Gpio(17, 'in', 'both');
   pir.watch((error, value) => {
     if (error) {
-      pir.unexport();
-      process.exit();
+      pirOff(pir);
       logger.log(logger.INFO, 'PIR Error');
     }
     if (value === 1 && disarmed.readSync() !== 1) {
       warningLightOn();
+      motionSound.play();
       setTimeout(alarmOn, ALARM);
       logger.log(logger.INFO, 'Villain Detected');
-      pir.unexport();
-      // motionSound();
+      pirOff();
     }
-  });
-};
-
-const pirOff = () => {
-  if (disarmed.readSync() === 0) {
     pir.unexport();
-  }
+  });
 };
 
 const systemArmed = () => {
@@ -138,24 +138,26 @@ const systemArmed = () => {
 
 module.exports = class AlarmControls {
   armSystem() {
+    pir = 0;
+    logger.log(logger.INFO, 'Arming System');
+    armingSound.play();
+    armingBeep.play();
     disarmedOff();
     warningLightOn();
     setTimeout(systemArmed, ARMING_SYSTEM);
+    logger.log(logger.INFO, 'System Armed');
   }
 
   disarmSystem() {
     if (disarmed.readSync() === 0) {
-      logger.log(logger.INFO, 'Disarm System');
+      logger.log(logger.INFO, 'Disarming System');
       warningLightOff();
-      logger.log(logger.INFO, 'Warning Light Off');
       armedOff();
-      logger.log(logger.INFO, 'Armed Off');
       alarmOff();
-      logger.log(logger.INFO, 'Alarm Off');
       pirOff();
-      logger.log(logger.INFO, 'PIR Off');
       disarmedOn();
-      logger.log(logger.INFO, 'Disarm On');
+      pir = 0;
+      logger.log(logger.INFO, 'System Disarmed');
     } else {
       logger.log(logger.INFO, 'System Already Disabled');
     }

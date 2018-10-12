@@ -1,85 +1,133 @@
-# Project Hive
-##### Protect the hive
-[![Build Status](https://travis-ci.com/bgwest/project-hive.svg?branch=development)](https://travis-ci.com/bgwest/project-hive)
+![hivelogo](./src/lib/assets/project-images/project-hive-og-logo-large-cleaner-solo.png)
+
 ## Overview
 
-A raspberry pi running a restful API. Includes a database to manage user data and events.
+### Current version
 
-##### working routes:
+Beta v1.0
 
-auth-router.js, arm-router.js
+### Description
+- A home security system on a Raspberry Pi running a restful API
+- Armed, arming, disarmed, alarm, and motion detection states are currently represented by four LED's
+    - Green LED: armed state
+    - Red LED: disarmed state
+    - Yellow LED: alarm state
+    - Blue LED: currently arming or warning states
+- Motion sensor triggers a warning state, which will change to an alarm state after 30 seconds
+- Takes picture of intruder 5 seconds after the alarm is triggered
+- Outputs wav file depending on state change
+- You may send commands to the pi from a locally connected computer
+- Pi communicates with a Heroku database to store user information and pictures taken
+
+### Security
+- When armed, if the motion sensor detects any movement, the warning state will activate for 30 seconds
+- If a valid disarm request is not sent during those 30 seconds, the alarm state will activate
+- 5 seconds after the alarm state activates, the camera will snap a picture
+
+### Pi components
+![hivelogo](./src/lib/assets/project-images/pi-diagram.png)
+- Raspberry Pi 3
+- Breadboard
+- PIR (motion sensor)
+- Pi/Arduino camera
+- 4 different colored LED's
+- Dupont wires
 
 ## How To
 
-#### User Auth Account manual testing
+### Setup
 
-[x] signup
+#### Following steps must be done on the pi
 
+- Ensure node is installed on pi
+- Git clone this repo
+- npm install
+- Run 'node src/app.js' to turn on the server
+
+## Usage
+
+![houselogo](./src/lib/assets/project-images/project-hive-og-house-large-solo.png)
+
+##### Send requests from any locally connected computer
+
+- To create an account, send a POST request to the user route with a username, password, email, and access code
+- To arm the system, send a GET request to the arm route with a valid access code
+    - If the access code is valid the arming state will turn on for 30 seconds, after which it will enter the armed state and turn on the motion sensor
+- To disarm the system, send a GET request to the disarm route with a valid access code
+    - If the access code is valid all other states will be disabled, the motion sensor will turn off, and the disarmed state will activate
+
+### Example requests
+
+#### Example signup
+
+Entered into command line:
 ```
-[0]Benjamins-MBP:project-hive bwest$ echo '{"username":"bwest","password":"testing","email":"ben@gmail.com","accesscode":"4129"}' | http https://project-hive.herokuapp.com/user/signup
+echo '{"username":"kris3579","password":"password","email":"kristianesvelt@hotmail.com","accesscode":"3579"}' | http http://172.16.5.234:3000/user/signup
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Length: 479
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:40:13 GMT
-Etag: W/"1df-L3Ya9L/5FrSFykA0/NIAAlIm6Js"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:11:07 GMT
+ETag: W/"1df-JOrcMNYu+m0VeiuhQPtoPcbAeM8"
 X-Powered-By: Express
 
 {
     "token": "long token string"
 }
-
-[0]Benjamins-MBP:project-hive bwest$ 
 ```
 
-[x] arm example passing [ validated code, non-existent code ]
+#### Example of arming system with a valid access code
 
+Entered into command line:
 ```
-[0]Benjamins-MBP:project-hive bwest$ 
-[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/4129
+http http://172.16.5.234:3000/arm/3579
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Length: 57
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:42:59 GMT
-Etag: W/"39-PzpqiAy/VBOlVa7oDONUEgsRNl8"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:15:49 GMT
+ETag: W/"39-Xk+/H75ASfjKS3J94l5hQy3q9UA"
 X-Powered-By: Express
 
 {
-    "accesscode": "4129",
+    "accesscode": "3579",
     "isValid": true,
     "message": "verified"
 }
+```
 
-[0]Benjamins-MBP:project-hive bwest$ 
-[0]Benjamins-MBP:project-hive bwest$ http https://project-hive.herokuapp.com/arm/3000
+#### Example of disarming system with valid access code
+
+Entered into command line:
+```
+http http://172.16.5.234:3000/disarm/3579
+```
+Result:
+```
 HTTP/1.1 200 OK
 Connection: keep-alive
-Content-Length: 65
+Content-Length: 57
 Content-Type: application/json; charset=utf-8
-Date: Wed, 10 Oct 2018 00:43:11 GMT
-Etag: W/"41-NQuKQVBHNLK6Jl00Z025Dh+Da3k"
-Server: Cowboy
-Via: 1.1 vegur
+Date: Thu, 11 Oct 2018 19:24:34 GMT
+ETag: W/"39-Xk+/H75ASfjKS3J94l5hQy3q9UA"
 X-Powered-By: Express
 
 {
-    "accesscode": "3000",
-    "isValid": false,
-    "message": "bad access code"
+    "accesscode": "3579",
+    "isValid": true,
+    "message": "verified"
 }
-
-[0]Benjamins-MBP:project-hive bwest$
 ```
 
+## Testing
 
-## Tests Performed with Jest
-
-###### testing app.js routes and responses.
+### Testing Framework: jest
 
 #### auth-router.js
 
@@ -101,34 +149,37 @@ X-Powered-By: Express
 
 * 2: testing INVALID accesscode on arm route - should return isValid = false
 
-#### image-router.js
+* 3: testing VALID accesscode on disarm route - should return isValid = true
 
-* coming soon
-
-### Installing
-
-To use this in your code:
-
-- git clone repo 
-- npm install 
-- require('../src/app.js')
+* 4: testing INVALID accesscode on disarm route - should return isValid = false
 
 ## Built With
 
-** Please see package.json to confirm dependency details.
+** Please see package.json to confirm dependency details
 
 ## Contributing
 
 Please feel free to contribute. Master branch auto merge locked for approval for non-contributors.
 
-## Versioning
+## Planned Enhancements 
 
-*n/a*
+In upcoming releases we plan to:
+
+* Repeat alarm sound until the system is disarmed
+* Integrate either photo burst or video instead of single picture on villain detection
+* Faster reaction time from after villain is detected, to triggering pi camera
+* Utilize database to log villain events and also log each time the system is armed / disarmed 
+* Trigger a text message / email to be sent if villain is detected while system is armed with link to video / photos
+* Front end to utilize account tokens for Web UI to access pictures and system event data
+* Allow user creation from Web UI
+* View villain cam live on Web UI
+* Configure PI traffic to be forwarded back and forth between cloud instance for completely remote access outside your home
+
 
 ## Authors
 
-![CF](http://i.imgur.com/7v5ASc8.png) **Brai Frauen**, **Jason Hiskey**, **Kristian Esvelt**, **Benjamin West**
+![CF](http://i.imgur.com/7v5ASc8.png) [**Brai Frauen**](https://github.com/ashabrai), [**Jason Hiskey**](https://github.com/jlhiskey), [**Kristian Esvelt**](https://github.com/kris3579), [**Benjamin West**](https://github.com/bgwest)
 
 ## License
 
-*none*
+MIT
