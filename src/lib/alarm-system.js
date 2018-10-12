@@ -105,6 +105,7 @@ const alarmOff = () => {
 
 const pirOff = () => {
   if (disarmed.readSync() === 0) {
+    pir.unexport();
     pir = 0;
     console.log('PIR OFF');
   }
