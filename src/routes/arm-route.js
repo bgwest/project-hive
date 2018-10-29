@@ -7,10 +7,12 @@ const bcrypt = require('bcrypt');
 const logger = require('../lib/logger');
 
 // imports arm and disarm functions
-const AlarmControls = require('../lib/alarm-system');
+
+// DISABLED FOR LOCAL DEVELOPMENT -- NEEDS TO BE ENABLED TO RUN ON PI
+// const AlarmControls = require('../lib/alarm-system');
 // allows us to call the armSystem and disarmSystem functions
 // using alarmControl.armSystem or alarmControl.disarmSystem
-const alarmControl = new AlarmControls();
+// const alarmControl = new AlarmControls();
 
 const AuthAccount = require('../model/auth-account-schema');
 const queryData = require('../lib/queryData');
@@ -73,12 +75,12 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
               const getPath = request.url.split('/')[1];
 
               if (getPath === 'arm') {
-                // console.log('\nRun jason and kris\'s code for arm.\n');
-                alarmControl.armSystem();
+                console.log('\nrun ARM system.\n');
+                // alarmControl.armSystem();
               }
               if (getPath === 'disarm') {
-                // console.log('\nRun jason and kris\'s code for disarm.\n');
-                alarmControl.disarmSystem();
+                console.log('\nrun DISARM system.\n');
+                // alarmControl.disarmSystem();
               }
               if (getPath !== 'disarm' && getPath !== 'arm') {
                 return next(new HttpError(400, 'something went wrong. consult your admin.'));
