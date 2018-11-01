@@ -5,7 +5,7 @@ const { DefinePlugin } = require('webpack');
 
 const webpackConfig = module.exports = {};
 
-webpackConfig.entry = `${__dirname}/src/main.js`;
+webpackConfig.entry = `${__dirname}/front-end/src/main.js`;
 
 webpackConfig.output = {
   filename: '[name].[hash].js',

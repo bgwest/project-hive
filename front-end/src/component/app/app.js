@@ -7,19 +7,19 @@ import Landing from '../landing/landing';
 
 class App extends React.Component {
   render() {
-    console.log('APP');
     return (
         <div>
-        <BrowserRouter>
-        <div>
-          { /* <Route path='*' component={AuthRedirect}/> */ }
-    <Route exact path='/' component={Landing}/>
-    <Route exact path='/signup' component={Landing}/>
-    <Route exact path='/login' component={Landing}/>
-    </div>
-    </BrowserRouter>
-    </div>
-  );
+          <BrowserRouter>
+            <div>
+              { /* <Route path='*' component={AuthRedirect}/> */ }
+              <Route exact path='/' component={Landing}/>
+              <Route exact path='/signup' component={Landing}/>
+              <Route exact path='/login' component={Landing}/>
+              <Route exact path='/alarmcontrols' component={Landing}/>
+            </div>
+          </BrowserRouter>
+        </div>
+    );
   }
 }
 
