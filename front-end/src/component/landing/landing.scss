@@ -1,0 +1,56 @@
+.hiveLogoOne {
+  width: 10%;
+  height: 10%;
+  padding-right: 2%;
+  float: right;
+}
+
+.hiveLogoTwo {
+  width: 11%;
+  height: 11%;
+  padding-top: 1%;
+  padding-left: 1%;
+  float: left;
+}
+
+.landingUI {
+  text-align: center;
+}
+
+// "unvisited"
+.landingUILinks {
+  text-decoration: none;
+  border:1px #FFCB33;
+  border-style: dashed solid;
+  box-sizing: content-box;
+  padding: 7px;
+  // top, right, bottom, left
+  margin: 10% 1% 1% 5%;
+  // link color "unvisited"
+  color:#000000;
+}
+
+.landingUILinks:visited {
+  color:#000000;
+}
+
+.landingUILinks:hover {
+  background: #FFCB33;
+  color:#000000;
+}
+
+.landingUILinks:active {
+  color:#000000;
+}
+
+.hiveLogoOneWrapper .hiveLogoOneText {
+  float: right;
+  margin-top: 10%;
+  bottom: 100px;
+  visibility:hidden;
+  color: red;
+}
+
+.hiveLogoOneWrapper:hover .hiveLogoOneText {
+  visibility:visible;
+}

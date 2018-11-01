@@ -1,0 +1,23 @@
+// "unvisited"
+.dashboardGoBack {
+  text-decoration: none;
+  border:1px #FFCB33;
+  border-style: dashed solid;
+  box-sizing: content-box;
+  padding: 7px;
+  // link color "unvisited"
+  color:#000000;
+}
+
+.dashboardGoBack:visited {
+  color:#000000;
+}
+
+.dashboardGoBack:hover {
+  background: #FFCB33;
+  color:#000000;
+}
+
+.dashboardGoBack:active {
+  color:#000000;
+}
