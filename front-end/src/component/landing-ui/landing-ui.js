@@ -15,7 +15,7 @@ class LandingUI extends React.Component {
             will render dashboard... */ }
         <Link to='/dashboard' className="landingUILinks"> Dashboard </Link>
         <Link to='/alarmcontrols' className="landingUILinks"> Alarm Controls </Link>
-        <Link to='/hivestatus' className="landingUILinks"> Status </Link>
+        <Link to='/viewstatus' className="landingUILinks"> Status </Link>
 
       </nav>
     );
