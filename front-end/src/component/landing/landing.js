@@ -1,6 +1,7 @@
 // libraries and packages
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
 
 // components
 import LandingUI from '../landing-ui/landing-ui';
@@ -22,14 +23,24 @@ class Landing extends React.Component {
   }
 
   render() {
-    console.log('Landing');
     const { location } = this.props;
     return (
       <section>
         <React.Fragment>
           <LandingUI/>
-          <img src={hiveLogoOne} className="hiveLogoOne" alt="project-hive"/>
-          <img src={hiveLogoTwo} className="hiveLogoTwo" alt="project-your-hive"/>
+          <div className="hiveLogoOneWrapper">
+            <a className="hiveHomeLink" href="https://github.com/bgwest/project-hive">
+              {
+                <img src={hiveLogoOne} className="hiveLogoOne" alt="project-hive"/>
+              }
+            </a>
+            <p className="hiveLogoOneText">README?</p>
+          </div>
+          <Link to='/home' className="hiveHomeLink">
+            {
+              <img src={hiveLogoTwo} className="hiveLogoTwo" alt="project-your-hive"/>
+            }
+          </Link>
           { /* Only renders alarmcontrols if link is clicked */ }
           {location.pathname === '/alarmcontrols' ? <AlarmControls/> : null}
         </React.Fragment>

@@ -42,3 +42,15 @@
 .landingUILinks:active {
   color:#000000;
 }
+
+.hiveLogoOneWrapper .hiveLogoOneText {
+  float: right;
+  margin-top: 10%;
+  bottom: 100px;
+  visibility:hidden;
+  color: red;
+}
+
+.hiveLogoOneWrapper:hover .hiveLogoOneText {
+  visibility:visible;
+}
