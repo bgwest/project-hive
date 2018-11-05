@@ -7,8 +7,9 @@
   "dependencies": {
     "aws-sdk": "^2.329.0",
     "aws-sdk-mock": "^4.2.0",
-    "bcrypt": "^3.0.1",
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "fs-extra": "^7.0.0",
