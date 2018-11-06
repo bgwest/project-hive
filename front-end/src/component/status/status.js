@@ -18,8 +18,7 @@ class Status extends React.Component {
       return statusRed;
     }
     // else -- if null aka system status unknown
-    // do nothing... so default unknown status appears
-    console.log('status is unknown');
+    // do nothing... so default 'unknown' status appears
   };
 
   render() {

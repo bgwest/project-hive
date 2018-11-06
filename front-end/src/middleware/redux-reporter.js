@@ -1,7 +1,8 @@
 // this is a curried function with 3 arguments
 export default store => next => (action) => {
   try {
-    console.log('__ACTION__', action);
+    // enable for development... but live this will output token to console :(
+    // console.log('__ACTION__', action);
     // console.log('__OLD STATE__', store.getState());
     const result = next(action);
     // console.log('__NEW STATE__', store.getState());
