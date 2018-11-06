@@ -1,4 +1,7 @@
-# do not store images in github 
+# ignore load testing
+load_testing/
+
+# do not store images in github
 src/lib/assets/picture-storage/
 
 # ignore testing hash file for this project
