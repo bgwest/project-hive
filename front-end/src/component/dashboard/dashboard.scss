@@ -21,3 +21,29 @@
 .dashboardGoBack:active {
   color:#000000;
 }
+
+.dashboardUILinks {
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  border:1px #FFCB33;
+  border-style: dashed solid;
+  box-sizing: content-box;
+  padding: 7px;
+  // top, right, bottom, left
+  margin: 10% 1% 1% 5%;
+  // link color "unvisited"
+  color:#000000;
+}
+
+.dashboardUILinks:visited {
+  color:#000000;
+}
+
+.dashboardUILinks:hover {
+  background: #FFCB33;
+  color:#000000;
+}
+
+.dashboardUILinks:active {
+  color:#000000;
+}

@@ -85,7 +85,9 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
               if (getPath !== 'disarm' && getPath !== 'arm') {
                 return next(new HttpError(400, 'something went wrong. consult your admin.'));
               }
-              return response.json({ message: 'verified', accesscode: passedAccess, isValid: accessCodeResult });
+              return response.json({
+                message: 'verified', accesscode: passedAccess, isValid: accessCodeResult, [getPath]: accessCodeResult,
+              });
             }
           }
           if (accessCodeResult !== true && queryLength === accessCodes.length - 1) {

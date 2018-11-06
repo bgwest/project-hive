@@ -2,6 +2,7 @@ import React from 'react';
 
 const emptyState = {
   accessCode: '',
+  armOrDisarm: '',
 };
 
 class AlarmControlsForm extends React.Component {
@@ -27,11 +28,17 @@ class AlarmControlsForm extends React.Component {
     this.setState({[name]: value});
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.onComplete(this.state);
+    this.setState(emptyState);
+  };
+
   render() {
     return (
       <React.Fragment>
-        <h3>Enable/Disable Alarm</h3>
-      <form>
+        <h3>Enable/Disable Hive</h3>
+      <form onSubmit={this.handleSubmit}>
         <input
           name='accessCode'
           placeholder='access code'

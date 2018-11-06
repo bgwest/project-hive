@@ -3,6 +3,7 @@
 // development note: needed to include this twice...
 
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const logger = require('./logger');
 const loggerMiddleware = require('./logger-middleware');
@@ -17,6 +18,24 @@ const app = express();
 //-------------------------------------------------------------------------------------------------
 // ROUTES
 //-------------------------------------------------------------------------------------------------
+
+// GLOBAL MIDDLEWARE
+// app.use(cors({ origin: process.env.CORS_ORIGINS }));
+
+// app.use((req, res, next) => {
+//   console.log(req);
+//   res.header('Access-Control-Allow-Origin', '*');
+//   // res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGINS);
+//   // res.header('x-Trigger', 'CORS');
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   // res.header('Access-Control-Allow-Credentials', 'true');
+//   // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+//   next();
+// });
+
+app.use(cors({
+  credential: true,
+}));
 
 // middleware
 app.use(loggerMiddleware);
