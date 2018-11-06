@@ -7,8 +7,6 @@ export const set = status => ({
 });
 
 export const armSystem = accesscode => (store) => {
-  console.log('armSystem called');
-  console.log(accesscode.accessCode);
   return superagent.get(`${API_URL}${routes.ARM_BACKEND}/${accesscode.accessCode}`) // eslint-disable-line
   // .withCredentials() // !: for cookies -- no cookies, using cors in node
     .then((response) => { //! 3
@@ -18,8 +16,6 @@ export const armSystem = accesscode => (store) => {
 };
 
 export const disarmSystem = accesscode => (store) => {
-  console.log('disarmSystem called');
-  console.log(accesscode.accessCode);
   return superagent.get(`${API_URL}${routes.DISARM_BACKEND}/${accesscode.accessCode}`) // eslint-disable-line
   // .withCredentials() // !: for cookies -- no cookies, using cors in node
     .then((response) => { //! 3

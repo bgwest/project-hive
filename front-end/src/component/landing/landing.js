@@ -53,8 +53,6 @@ class Landing extends React.Component {
 
   render() {
     const { location } = this.props;
-    console.log('landing:');
-    console.log(this.props.token);
     return (
       <section>
         <React.Fragment>
@@ -101,5 +99,4 @@ Landing.propTypes = {
   pDoLogin: PropTypes.func,
 };
 
-// export default Landing;
 export default connect(mapStateToProps,mapDispatchToProps)(Landing);

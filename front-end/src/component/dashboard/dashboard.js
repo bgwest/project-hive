@@ -6,7 +6,6 @@ import './dashboard.scss';
 import PropTypes from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
 import Block from '../block/block';
-import Status from '../status/status';
 import * as statusActions from '../../action/status';
 
 class Dashboard extends React.Component {

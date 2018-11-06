@@ -9,7 +9,6 @@ const initialState = null;
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case 'STATUS_SET':
-      console.log('STATUS_SET called');
       return payload;
     default:
       return state;

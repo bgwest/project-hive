@@ -21,10 +21,8 @@ export const remove = () => ({
 //    user is applied by the developer when calling the action
 //    store is applied by thunk
 export const signupRequest = user => (store) => {
-  console.log('signup called');
+  // need to convert to string for mongoDB schema requirement
   user.accesscode = user.accesscode.toString();
-  console.log(user);
-  console.log(store);
   //! 2
   return superagent.post(`${API_URL}${routes.SIGNUP_BACKEND}`) // eslint-disable-line
     .send(user)
@@ -36,9 +34,6 @@ export const signupRequest = user => (store) => {
 };
 
 export const loginRequest = user => (store) => {
-  console.log('loginRequest called');
-  console.log(user);
-  console.log(store);
   return superagent.get(`${API_URL}${routes.LOGIN_BACKEND}`) // eslint-disable-line
     .auth(user.username, user.password)
     // .withCredentials() // !: for cookies -- no cookies, using cors in node

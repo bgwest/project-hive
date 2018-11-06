@@ -1,12 +1,9 @@
 import React from 'react';
 import AlarmControlsForm from '../alarm-controls-form/alarm-controls-form';
-import { Link } from 'react-router-dom';
 
 // style
 import './alarm-controls.scss';
-import * as routes from '../../routes';
 
-import * as authActions from '../../action/auth';
 import * as statusActions from '../../action/status';
 import PropTypes from 'prop-types';
 import connect from 'react-redux/es/connect/connect';
@@ -20,12 +17,6 @@ class AlarmControls extends React.Component {
     this.state.showStatus = false;
   }
 
-  changePath = () => {
-    console.log('inside changePath');
-    // console.log(this.props);
-    // this.props.history.location.pathname = routes.STATUS;
-  };
-
   determineArmOrDisarm = (accesscode) => {
     // if system IS armed, attempt to DISARM
     if (this.state.status) {
@@ -38,7 +29,6 @@ class AlarmControls extends React.Component {
   attemptArmOrDisarm = (accesscode, systemFunction) => {
     return systemFunction(accesscode)
       .then((response) => {
-        console.log('response:');
         const convertedResponse = JSON.parse(response.payload);
         if (convertedResponse.isValid) {
           // if accessCode is valid... now determine is arm or disarm ran
@@ -50,7 +40,6 @@ class AlarmControls extends React.Component {
           }
           this.props.updateSystemStatus(this.state.status);
         }
-        this.changePath();
       })
       .catch(console.error);
   };
@@ -80,35 +69,16 @@ class AlarmControls extends React.Component {
     }
   };
 
-  // attemptArm = (accesscode) => {
-  //   return this.props.armSystem(accesscode)
-  //     .then((response) => {
-  //       console.log('response:');
-  //       const convertedResponse = JSON.parse(response.payload);
-  //       if (convertedResponse.isValid) {
-  //         console.log(convertedResponse.isValid);
-  //         this.setState({ status: true });
-  //         this.props.updateSystemStatus(this.state.status);
-  //       }
-  //       this.changePath();
-  //     })
-  //     .catch(console.error);
-  // };
-
   render() {
     return (
       <section className="alarmControls">
         <AlarmControlsForm onComplete={this.determineArmOrDisarm}/>
-        {/*{this.state.status === true ? <p>Access Code Accepted.<br/>System ARMED.</p> : null}*/}
-        {/*{this.state.status === false ? <p>Access Code Accepted.<br/>System DISARMED.</p> : null}*/}
         {this.renderTheCorrectSystemActionMessage()}
         {this.state.dispDefaultMessage === null ? this.defaultAlarmControlsMessage() : null}
       </section>
     );
   }
 }
-
-// export default AlarmControls;
 
 const mapStateToProps = state => ({
   token: state.token,
@@ -128,5 +98,4 @@ AlarmControls.propTypes = {
   updateSystemStatus: PropTypes.func,
 };
 
-// export default Landing;
 export default connect(mapStateToProps,mapDispatchToProps)(AlarmControls);

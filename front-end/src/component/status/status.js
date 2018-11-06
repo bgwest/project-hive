@@ -12,11 +12,9 @@ class Status extends React.Component {
 
   renderStatusSVG = (status) => {
     if (status === true) {
-      console.log('status is true');
       return statusGreen;
     }
     if (status === false) {
-      console.log('status is false');
       return statusRed;
     }
     // else -- if null aka system status unknown
