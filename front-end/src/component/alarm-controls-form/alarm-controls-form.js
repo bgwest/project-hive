@@ -14,16 +14,12 @@ class AlarmControlsForm extends React.Component {
   handleChange = (event) => {
     let { name, value } = event.target;
     // validate input is number... number only
-    if (!value) {
-      this.setState({ accessCode: ''});
-      return '';
-    } // else
     value = Number(value);
     if (name === 'accessCode' && value !== 'NaN' && !Number(value)) {
       alert('Please enter your [4-6] digit access code. numbers only.');
       this.setState({ accessCode: ''});
       return '';
-    } // else
+    }
     // dynamic way to capture any state changes
     this.setState({[name]: value});
   };

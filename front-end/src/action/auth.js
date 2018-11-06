@@ -21,7 +21,10 @@ export const remove = () => ({
 //    user is applied by the developer when calling the action
 //    store is applied by thunk
 export const signupRequest = user => (store) => {
-  console.log('signupRequest called');
+  console.log('signup called');
+  user.accesscode = user.accesscode.toString();
+  console.log(user);
+  console.log(store);
   //! 2
   return superagent.post(`${API_URL}${routes.SIGNUP_BACKEND}`) // eslint-disable-line
     .send(user)

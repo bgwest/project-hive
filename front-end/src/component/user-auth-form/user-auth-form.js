@@ -18,7 +18,21 @@ class AuthForm extends React.Component {
   }
 
   handleChange = (event) => {
-    const { name, value } = event.target;
+    let { name, value } = event.target;
+
+    if (name === 'accesscode') {
+      // if field is not blank...
+      if (value !== '') {
+        value = Number(value);
+        // and if field is not solely a numeric value..
+        if (value !== 'NaN' && !Number(value)) {
+          alert('Please enter your [4-6] digit access code. numbers only.');
+          this.setState({ accessCode: ''});
+          return '';
+        }
+      }
+    }
+
     this.setState({[name]: value});
   };
 
@@ -43,6 +57,8 @@ class AuthForm extends React.Component {
       <br />
       <input
         name='accesscode'
+        maxLength="6"
+        minLength="4"
         placeholder='access code'
         type='text'
         value={this.state.accesscode}

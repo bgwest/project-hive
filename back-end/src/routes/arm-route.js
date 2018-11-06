@@ -51,6 +51,7 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
   // define query for AuthAccount
   const findStuff = queryData.find(AuthAccount, 'accessCodeHash');
   let accessCodes = {};
+  let codefound = null;
   // fill query container with AuthAccount data
   queryData.query(findStuff, function (data, error) { //eslint-disable-line
     if (error) {
@@ -67,7 +68,9 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
             return next(new HttpError(400, 'accessCode error consult system admin.'));
           }
           if (test) {
-            if (accessCodeResult === true) {
+            if (accessCodeResult === true && codefound !== true) {
+              // ensure this is not ran twice to avoid node crash... hacky but will work for now
+              codefound = true;
               // loop will keep checking until it's complete asynchronously... but...
               // as soon as it finds a match this is the only thread that will continue on in logic
               queryLength = accessCodes.length - 1;
