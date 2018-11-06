@@ -13,6 +13,11 @@
   float: left;
 }
 
+.home {
+  text-align: center;
+  margin-top: 5%;
+}
+
 .landingUI {
   text-align: center;
 }
@@ -20,6 +25,7 @@
 // "unvisited"
 .landingUILinks {
   text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
   border:1px #FFCB33;
   border-style: dashed solid;
   box-sizing: content-box;
@@ -53,4 +59,13 @@
 
 .hiveLogoOneWrapper:hover .hiveLogoOneText {
   visibility:visible;
+}
+
+// for pose component
+
+.box {
+  width: 100px;
+  height: 100px;
+  background: #ffcb33;
+  transform-origin: 50% 50%;
 }
