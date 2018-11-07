@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// style
-import './user-auth-form.scss';
 import validator from 'validator';
+
 
 const emptyState = {
   username: '',
@@ -18,13 +16,11 @@ const emptyState = {
   password: '', //! Vinicio - this is the NAKED password
   passwordPristine: true,
   passwordError: 'Password is required',
-
-  // has own custom validation -- works good for now
-  accesscode: '',
 };
 
 const MIN_NAME_LENGTH = 3;
 const MIN_PASSWORD_LENGTH = 6;
+
 
 class AuthForm extends React.Component {
   constructor(props) {
@@ -39,6 +35,8 @@ class AuthForm extends React.Component {
         if ( value.length < MIN_NAME_LENGTH) {
           return `Your username must be at least ${MIN_NAME_LENGTH} characters long`;
         }
+        // THUNK
+        // superagent.get(`${API_URL}/usernameTaken/${value}`);
         return null;
       case 'email':
         if(!validator.isEmail(value)) {
@@ -52,29 +50,11 @@ class AuthForm extends React.Component {
       default:
         return null;
     }
-
-    // THUNK
-    // superagent.get(`${API_URL}/usernameTaken/${value}`);
-
     return null;
   };
 
   handleChange = (event) => {
-    let { name, value } = event.target;
-
-    if (name === 'accesscode') {
-      // if field is not blank...
-      if (value !== '') {
-        value = Number(value);
-        // and if field is not solely a numeric value..
-        if (value !== 'NaN' && !Number(value)) {
-          alert('Please enter your [4-6] digit access code. numbers only.');
-          this.setState({ accessCode: ''});
-          return '';
-        }
-      }
-    }
-
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
       [`${name}Pristine`]: false,
@@ -87,7 +67,7 @@ class AuthForm extends React.Component {
 
     const { usernameError, emailError, passwordError } = this.state;
 
-    if(this.props.type === 'login' || this.props.type === 'signup' || (!usernameError && !passwordError && !emailError)) {
+    if(this.props.type === 'login' || (!usernameError && !passwordError && !emailError)) {
       this.props.onComplete(this.state);
       this.setState(emptyState);
     } else {
@@ -103,32 +83,20 @@ class AuthForm extends React.Component {
     let { type } = this.props;
     type = type === 'login' ? 'login' : 'signup';
 
-    const signupJSX = () => {
-      return (<section>
-      { this.state.emailPristine ? undefined : <p>{ this.state.emailError }</p> }
-      <input
-        name='email'
-        placeholder='email'
-        type='email'
-        value={this.state.email}
-        onChange={this.handleChange}
-      />
-      <br />
-      <input
-        name='accesscode'
-        maxLength="6"
-        minLength="4"
-        placeholder='access code'
-        type='text'
-        value={this.state.accesscode}
-        onChange={this.handleChange}
-      />
-    </section>
-    );
-    };
+    const signupJSX =
+      <div>
+        { this.state.emailPristine ? undefined : <p>{ this.state.emailError }</p> }
+        <input
+          name='email'
+          placeholder='email'
+          type='email'
+          value={this.state.email}
+          onChange={this.handleChange}
+        />
+      </div>;
 
     return(
-      <form className='userAuthForm' onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         { this.state.usernamePristine ? undefined : <p> {this.state.usernameError}</p>}
         <input
           name='username'
@@ -137,17 +105,15 @@ class AuthForm extends React.Component {
           value={this.state.username}
           onChange={this.handleChange}
         />
-        <br />
+        { type !== 'login' ? signupJSX : undefined }
         { this.state.passwordPristine ? undefined : <p> {this.state.passwordError}</p>}
         <input
           name='password'
-          placeholder='password'
+          placeholder='sekret'
           type='password'
           value={this.state.password}
           onChange={this.handleChange}
         />
-        <br />
-        { type === 'signup' ? signupJSX() : undefined }
         <button type='submit'>{type}</button>
       </form>
     );

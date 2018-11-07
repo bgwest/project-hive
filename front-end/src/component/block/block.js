@@ -32,10 +32,11 @@ class Block extends React.Component {
     super(props);
     this.state = { isVisible: true };
     this.state.text = 'Slide left to enable';
+    this.timer = null;
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.timer = setInterval(() => {
       const project = 'Slide left to enable';
       const hive = 'Slide right to disable';
       // flashing letters ooo cool...
@@ -51,15 +52,15 @@ class Block extends React.Component {
             isVisible: !this.state.isVisible,
             text: project,
           });
-          return;
+          
         default:
-          return;
       }
     }, 2000);
   }
 
+  // fixed memory leak in my application from the <Block/> setInterval used on the slider text
   componentWillUnmount() {
-    clearInterval(this.interval);
+    clearInterval(this.timer);
   }
 
 

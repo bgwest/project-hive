@@ -13,6 +13,11 @@ export const remove = () => ({
   type: 'TOKEN_REMOVE',
 });
 
+export const notUnique = () => ({
+  type: 'NOT_UNIQUE',
+  payload: notUnique,
+});
+
 //-------------------------------------------------------------
 // ASYNC
 //-------------------------------------------------------------
@@ -40,5 +45,18 @@ export const loginRequest = user => (store) => {
     .then((response) => { //! 3
       // !: set is a SYNC action, therefore; it connects and updates the store
       return store.dispatch(set(response.text)); // !4
+    });
+};
+
+export const uniqueHandling = account => (store) => {
+  return superagent.get(`${API_URL}${routes.SIGNUP_VALIDATION_BACKEND}/${account.username}/${account.email}`) // eslint-disable-line
+  // .withCredentials() // !: for cookies -- no cookies, using cors in node
+    .then((response) => { //! 3
+      const convertedResponse = JSON.parse(response.text);
+      // !: set is a SYNC action, therefore; it connects and updates the store
+      store.dispatch(notUnique(convertedResponse)); // !4
+      return convertedResponse;
+    }).then((data) => {
+      return data;
     });
 };
