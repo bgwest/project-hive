@@ -54,6 +54,8 @@ const masterAccessValidation = (passedAccess, request, response, next) => {
   let codefound = null;
   // fill query container with AuthAccount data
   queryData.query(findStuff, function (data, error) { //eslint-disable-line
+    // reset codefound again to ensure no odd functionality
+    codefound = null;
     if (error) {
       return next(new HttpError(400, 'query error.'));
     }

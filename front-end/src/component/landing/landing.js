@@ -31,6 +31,7 @@ class Landing extends React.Component {
     this.state.render.alarmControls = false;
     this.state.errors = {};
     this.state.errors.duplicateEntry = this.props.notUnique || null;
+    this.state.errors.duplicateEntryType = null;
   }
 
   handleLogin = (user) => {
@@ -47,9 +48,14 @@ class Landing extends React.Component {
       .then((response) => {
         const convertedResponse = response;
         if (convertedResponse.foundUser === true || convertedResponse.foundEmail === true) {
-          console.log('either convertedResponse is true');
+          let displayFailure = convertedResponse.foundUser ? 'username' : null;
+          if (displayFailure === null) {
+            displayFailure = convertedResponse.foundEmail ? 'email' : null;
+          }
+          console.log(`${displayFailure} already exists... try again.`);
           console.log(convertedResponse);
           this.state.errors.duplicateEntry = true;
+          this.state.errors.duplicateEntryType = displayFailure;
           return this.setState(this.state);
         } // else
         return convertedResponse.foundUser || convertedResponse.foundEmail;
@@ -58,8 +64,8 @@ class Landing extends React.Component {
           console.log('this should never happen. if it does, something is wrong.');
         } // else
         if (trueOrFalse === false) {
-          console.log('time to signup.');
-          console.log(user);
+          // console.log('time to signup.');
+          // console.log(user);
           return this.props.pDoSignUp(user);
         }
       }).then((finalReply) => {
@@ -102,7 +108,7 @@ class Landing extends React.Component {
           {location.pathname === '/alarmcontrols' ? <AlarmControls/> : null}
           {location.pathname === '/login' ? <UserAuthForm type='login' onComplete={this.handleLogin}/> : null}
           {location.pathname === '/signup' ? <UserAuthForm type='signup' onComplete={this.handleSignup}/> : null}
-          {this.state.errors.duplicateEntry === true ? <p>Duplicate Entry... try again</p> : null}
+          {this.state.errors.duplicateEntry === true ? <p>{this.state.errors.duplicateEntryType} already exists... try again</p> : null}
           {location.pathname === '/viewstatus' ? <Status status={this.props.status}/> : null}
           {location.pathname === '/home' ? this.homePageMessage() : null}
           { /* if isVisible is true, box is visible. if isVisible is false, hidden. */ }

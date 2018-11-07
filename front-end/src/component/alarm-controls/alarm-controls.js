@@ -14,7 +14,7 @@ class AlarmControls extends React.Component {
     this.state = {};
     this.state.status = this.props.status;
     this.state.dispDefaultMessage = null;
-    this.state.showStatus = false;
+    this.state.accessCodeIsValid = true;
   }
 
   determineArmOrDisarm = (accesscode) => {
@@ -33,12 +33,16 @@ class AlarmControls extends React.Component {
         if (convertedResponse.isValid) {
           // if accessCode is valid... now determine is arm or disarm ran
           if (convertedResponse.arm) {
-            this.setState({ status: true, dispDefaultMessage: false });
+            this.setState({ status: true, dispDefaultMessage: false, accessCodeIsValid: true });
           }
           if (convertedResponse.disarm) {
-            this.setState({ status: false, dispDefaultMessage: false });
+            this.setState({ status: false, dispDefaultMessage: false, accessCodeIsValid: true });
           }
           this.props.updateSystemStatus(this.state.status);
+        } // else
+        if (!convertedResponse.isValid) {
+          this.state.accessCodeIsValid = false;
+          return this.setState(this.state);
         }
       })
       .catch(console.error);
@@ -49,6 +53,7 @@ class AlarmControls extends React.Component {
       <React.Fragment>
         <br/>
         <div className="ensureNoSquash">
+          {this.state.accessCodeIsValid === false ? <p>Invalid code.</p> : null}
           {this.props.token === null ? <p>Recommended: login first.</p> : null}
           <br/>
           <p><b>Please note:</b></p>
