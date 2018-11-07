@@ -15,7 +15,7 @@ const emptyState = {
   emailPristine: true,
   emailError: 'Email is Required',
 
-  password: '', //! Vinicio - this is the NAKED password
+  password: '',
   passwordPristine: true,
   passwordError: 'Password is required',
 
