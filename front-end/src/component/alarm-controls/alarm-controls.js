@@ -15,6 +15,7 @@ class AlarmControls extends React.Component {
     this.state.status = this.props.status;
     this.state.dispDefaultMessage = null;
     this.state.accessCodeIsValid = true;
+    this.state.waitForValidation = null;
   }
 
   determineArmOrDisarm = (accesscode) => {
@@ -27,8 +28,15 @@ class AlarmControls extends React.Component {
   };
 
   attemptArmOrDisarm = (accesscode, systemFunction) => {
+    // for populating 'verifying access code message'...
+    // only useful with large data sets
+    // keep in mind.. this is not only querying but also running bcrypt for each entry
+    // to decrypt and compare O.o;
+    this.state.waitForValidation = true;
+    this.setState(this.state);
     return systemFunction(accesscode)
       .then((response) => {
+        this.state.waitForValidation = false;
         const convertedResponse = JSON.parse(response.payload);
         if (convertedResponse.isValid) {
           // if accessCode is valid... now determine is arm or disarm ran
@@ -53,6 +61,10 @@ class AlarmControls extends React.Component {
       <React.Fragment>
         <br/>
         <div className="ensureNoSquash">
+          {/*this message will really only appear if you are working with a large set of entries*/}
+          {/*I was testing with 3100 entries so this was useful to see switch back and forth to know*/}
+          {/*My code is still working.*/}
+          {this.state.waitForValidation === true ? <p>Verifying Access Code...</p> : null}
           {this.state.accessCodeIsValid === false ? <p>Invalid code.</p> : null}
           {this.props.token === null ? <p>Recommended: login first.</p> : null}
           <br/>
