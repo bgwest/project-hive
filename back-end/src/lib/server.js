@@ -20,19 +20,6 @@ const app = express();
 //-------------------------------------------------------------------------------------------------
 
 // GLOBAL MIDDLEWARE
-// app.use(cors({ origin: process.env.CORS_ORIGINS }));
-
-// app.use((req, res, next) => {
-//   console.log(req);
-//   res.header('Access-Control-Allow-Origin', '*');
-//   // res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGINS);
-//   // res.header('x-Trigger', 'CORS');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-//   // res.header('Access-Control-Allow-Credentials', 'true');
-//   // res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-//   next();
-// });
-
 app.use(cors({
   credential: true,
 }));

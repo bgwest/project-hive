@@ -5,6 +5,7 @@ export const SIGNUP_BACKEND = '/user/signup';
 export const LOGIN_BACKEND = '/user/auth/login';
 export const ARM_BACKEND = '/arm';
 export const DISARM_BACKEND = '/disarm';
+export const SIGNUP_VALIDATION_BACKEND = '/validation/amiunique';
 // ----------------------------------------------------------------
 // FRONT END
 // ----------------------------------------------------------------

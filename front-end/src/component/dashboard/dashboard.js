@@ -42,6 +42,7 @@ Dashboard.propTypes = {
 const mapStateToProps = state => ({
   token: state.token,
   status: state.status,
+  notUnique: state.notUnique,
 });
 
 const mapDispatchToProps = dispatch => ({
