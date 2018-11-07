@@ -68,16 +68,13 @@ const formValidator = (formData, type, callback) => {
         console.log(`${type} found:`);
         console.log(checkAccount);
         foundMatch = true;
+        return callback(foundMatch);
       }
     } // else
     console.log('right after for loop:');
     console.log(foundMatch);
-  });
-  // THIS IS BAD AND NEEDS TO BE REFACTORED... but putting here now for
-  // base testing on remaining form code..
-  return setTimeout(() => {
     return callback(foundMatch);
-  }, 1000);
+  });
 };
 
 router.get('/validation/amiunique/:username/:email', jsonParser, (request, response, next) => {
