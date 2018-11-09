@@ -19,6 +19,8 @@ webpackConfig.plugins = [
   }),
   new DefinePlugin({
     API_URL: JSON.stringify(process.env.API_URL),
+    CLIENT_ID: JSON.stringify(process.env.CLIENT_ID),
+    CLIENT_SECRET: JSON.stringify(process.env.CLIENT_SECRET),
   }),
 ];
 

@@ -57,6 +57,7 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
     "sass-loader": "^7.1.0",
+    "store": "^2.0.12",
     "style-loader": "^0.23.1",
     "superagent": "^4.0.0-beta.5",
     "uuid": "^3.3.2",

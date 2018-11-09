@@ -15,4 +15,5 @@ export const ROOT = '/';
 export const DASHBOARD = '/dashboard';
 export const SIGNUP_FRONTEND = '/signup';
 export const ALARM_CONTROLS = '/alarmcontrols';
+export const FINISH_OAUTH = '/finish/oauth';
 // ----------------------------------------------------------------
