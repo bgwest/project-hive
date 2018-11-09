@@ -111,6 +111,7 @@ class Landing extends React.Component {
           {this.state.errors.duplicateEntry === true ? <p>{this.state.errors.duplicateEntryType} already exists... try again</p> : null}
           {location.pathname === '/viewstatus' ? <Status status={this.props.status}/> : null}
           {location.pathname === '/home' ? this.homePageMessage() : null}
+          { /*location.pathname === '/finish/oauth' ? this.pHandleOauthSignUp : null */ }
           { /* if isVisible is true, box is visible. if isVisible is false, hidden. */ }
         </React.Fragment>
       </section>
@@ -128,6 +129,7 @@ const mapDispatchToProps = dispatch => ({
   pDoSignUp: user => dispatch(authActions.signupRequest(user)),
   pDoLogin: user => dispatch(authActions.loginRequest(user)),
   uniqueHandling: account => dispatch(authActions.uniqueHandling(account)),
+  pHandleOauthSignUp: google => dispatch(authActions.oauthPostOperation(google)),
 });
 
 Landing.propTypes = {

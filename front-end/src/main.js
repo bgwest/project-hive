@@ -8,7 +8,6 @@ import createStore from './create-store';
 // future import of CSS
 import '../style/main.scss';
 
-
 const store = createStore();
 
 const rootNode = document.createElement('div');

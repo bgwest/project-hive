@@ -15,8 +15,9 @@ class AlarmControlsForm extends React.Component {
     let { name, value } = event.target;
     // validate input is number... number only
     value = Number(value);
-    if (name === 'accessCode' && value !== 'NaN' && !Number(value)) {
-      alert('Please enter your [4-6] digit access code. numbers only.');
+    console.log(typeof value);
+    if (name === 'accessCode' && value !== 'NaN'  && !Number(value)) {
+      alert('Please enter your [4-6] digit access code. numbers only. leading zeros not allowed.');
       this.setState({ accessCode: ''});
       return '';
     }

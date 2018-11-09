@@ -38,6 +38,18 @@ export const signupRequest = user => (store) => {
     });
 };
 
+export const oauthPostOperation = google => (store) => {
+  console.log('return object after google');
+  console.log(google);
+  // return superagent.post(`${API_URL}${routes.SIGNUP_BACKEND}`) // eslint-disable-line
+  //   .send(google)
+  //   // .withCredentials() // !: for cookies -- no cookies, using cors in node
+  //   .then((response) => { //! 3
+  //     // !: set is a SYNC action, therefore; it connects and updates the store
+      return store.dispatch(set(google)); // !4
+  //   });
+};
+
 export const loginRequest = user => (store) => {
   return superagent.get(`${API_URL}${routes.LOGIN_BACKEND}`) // eslint-disable-line
     .auth(user.username, user.password)
